@@ -7,10 +7,11 @@ import org.springframework.stereotype.Service;
 import ru.studprokat.backend.dto.UserInputDto;
 import ru.studprokat.backend.dto.UserLoginDto;
 import ru.studprokat.backend.dto.UserOutputDto;
+import ru.studprokat.backend.exception.EmailAlreadyRegisteredException;
 import ru.studprokat.backend.exception.UserNotFoundException;
 import ru.studprokat.backend.exception.UsersNotFoundException;
 import ru.studprokat.backend.mappings.Mappings;
-import ru.studprokat.backend.repository.cassandra.UserIdByEmailRepository;
+import ru.studprokat.backend.repository.cassandra.UsersByEmailRepository;
 import ru.studprokat.backend.repository.cassandra.UsersByIdRepository;
 import ru.studprokat.backend.repository.cassandra.entity.UsersByEmail;
 import ru.studprokat.backend.repository.cassandra.entity.UsersById;
@@ -25,13 +26,13 @@ import java.util.UUID;
 @Service("cassandraUsersService")
 public class UsersServiceImpl implements UsersService {
     private final UsersByIdRepository usersByIdRepository;
-    private final UserIdByEmailRepository userIdByEmailRepository;
+    private final UsersByEmailRepository usersByEmailRepository;
     private final PasswordEncoder passwordEncoder;
     private final ObjectIdGenerators.UUIDGenerator uuidGenerator;
 
     @Autowired
-    public UsersServiceImpl(UsersByIdRepository usersByIdRepository, UserIdByEmailRepository userIdByEmailRepository, PasswordEncoder passwordEncoder) {
-        this.userIdByEmailRepository = userIdByEmailRepository;
+    public UsersServiceImpl(UsersByIdRepository usersByIdRepository, UsersByEmailRepository usersByEmailRepository, PasswordEncoder passwordEncoder) {
+        this.usersByEmailRepository = usersByEmailRepository;
         this.uuidGenerator = new ObjectIdGenerators.UUIDGenerator();
         this.passwordEncoder = passwordEncoder;
         this.usersByIdRepository = usersByIdRepository;
@@ -39,24 +40,33 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public UserOutputDto create(UserInputDto userInputDto) {
+        checkIfEmailAlreadyExistsInDatabase(userInputDto.getEmail());
+
         UUID id = this.uuidGenerator.generateId(null);
         String encodedPassword = this.passwordEncoder.encode(userInputDto.getPassword());
+        LocalDate registrationDate = LocalDate.now();
 
         UsersByEmail usersByEmail = new UsersByEmail()
                 .setId(id)
                 .setEmail(userInputDto.getEmail())
                 .setPassword(encodedPassword)
+                .setRegistrationDate(registrationDate)
                 .setPermissionLevel(PermissionLevel.USER);
 
         UsersById usersById = Mappings.toUsersById(userInputDto)
                 .setId(id)
-                .setRegistrationDate(LocalDate.now())
-                .setPermissionLevel(PermissionLevel.USER);
+                .setRegistrationDate(registrationDate);
 
-        // TODO: double email check
         this.usersByIdRepository.save(usersById);
-        this.userIdByEmailRepository.save(usersByEmail);
+        this.usersByEmailRepository.save(usersByEmail);
         return this.findById(id);
+    }
+
+    private void checkIfEmailAlreadyExistsInDatabase(String email) {
+        Optional<UsersByEmail> usersByEmail = this.usersByEmailRepository.findById(email);
+        if (usersByEmail.isPresent()) {
+            throw new EmailAlreadyRegisteredException();
+        }
     }
 
     @Override
@@ -66,25 +76,23 @@ public class UsersServiceImpl implements UsersService {
             throw new UserNotFoundException();
         }
 
-        // TODO: delete all related to user information too
-        this.userIdByEmailRepository.deleteById(usersById.get().getEmail());
+        this.usersByEmailRepository.deleteById(usersById.get().getEmail());
         this.usersByIdRepository.deleteById(id);
     }
 
     @Override
     public UserOutputDto alter(UUID id, UserInputDto userInputDto) {
-        Optional<UsersById> oldEntity = this.usersByIdRepository.findById(id);
-        if (oldEntity.isEmpty()) {
+        Optional<UsersById> oldUsersById = this.usersByIdRepository.findById(id);
+        if (oldUsersById.isEmpty()) {
             throw new UserNotFoundException();
         }
 
         // TODO: double email check and id_by_email update
-        UsersById newEntity = Mappings.toUsersById(userInputDto);
-        newEntity.setRegistrationDate(oldEntity.get().getRegistrationDate());
-        newEntity.setPermissionLevel(oldEntity.get().getPermissionLevel());
-        newEntity.setId(id);
+        UsersById newUsersById = Mappings.toUsersById(userInputDto);
+        newUsersById.setRegistrationDate(oldUsersById.get().getRegistrationDate());
+        newUsersById.setId(id);
 
-        this.usersByIdRepository.save(newEntity);
+        this.usersByIdRepository.save(newUsersById);
         return this.findById(id);
     }
 
@@ -100,7 +108,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public UserLoginDto findLoginDataByEmail(String email) {
-        Optional<UsersByEmail> usersByEmail = this.userIdByEmailRepository.findById(email);
+        Optional<UsersByEmail> usersByEmail = this.usersByEmailRepository.findById(email);
         if (usersByEmail.isEmpty()) {
             throw new UserNotFoundException();
         }
@@ -109,7 +117,8 @@ public class UsersServiceImpl implements UsersService {
         return new UserLoginDto(usersByEmail.get().getId(),
                 usersByEmail.get().getEmail(),
                 usersByEmail.get().getPassword(),
-                usersByEmail.get().getPermissionLevel());
+                usersByEmail.get().getPermissionLevel(),
+                usersByEmail.get().getRegistrationDate());
     }
 
     @Override

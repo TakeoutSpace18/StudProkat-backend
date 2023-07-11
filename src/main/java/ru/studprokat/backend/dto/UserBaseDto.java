@@ -17,8 +17,6 @@ public class UserBaseDto {
         private final @Email String email;
         @JsonProperty("social_networks")
         private final Set<String> socialNetworks;
-        @JsonProperty("address")
-        private final String address;
 
         public UserBaseDto(
                 @NotEmpty
@@ -33,16 +31,13 @@ public class UserBaseDto {
                 @JsonProperty("email")
                 String email,
                 @JsonProperty("social_networks")
-                Set<String> socialNetworks,
-                @JsonProperty("address")
-                String address
+                Set<String> socialNetworks
         ) {
                 this.name = name;
                 this.surname = surname;
                 this.middleName = middleName;
                 this.email = email;
                 this.socialNetworks = socialNetworks;
-                this.address = address;
         }
 
         @JsonProperty("name")
@@ -68,11 +63,6 @@ public class UserBaseDto {
         @JsonProperty("social_networks")
         public Set<String> getSocialNetworks() {
                 return socialNetworks;
-        }
-
-        @JsonProperty("address")
-        public String getAddress() {
-                return address;
         }
 
 }

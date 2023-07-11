@@ -10,6 +10,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.studprokat.backend.dto.ValidationExceptionDto;
+import ru.studprokat.backend.exception.EmailAlreadyRegisteredException;
+import ru.studprokat.backend.exception.ForbiddenException;
 import ru.studprokat.backend.exception.NotFoundException;
 
 import java.util.ArrayList;
@@ -38,9 +40,14 @@ public class ErrorControllerAdvice {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessage(exception.getMessage()));
     }
 
-    @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<ErrorMessage> handleBadCredentialException(BadCredentialsException exception) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorMessage(exception.getMessage()));
+    @ExceptionHandler(ForbiddenException.class)
+    public  ResponseEntity<ErrorMessage> handleForbiddenException(ForbiddenException exception) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ErrorMessage(exception.getMessage()));
+    }
+
+    @ExceptionHandler(EmailAlreadyRegisteredException.class)
+    public  ResponseEntity<ErrorMessage> handleForbiddenException(EmailAlreadyRegisteredException exception) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ErrorMessage(exception.getMessage()));
     }
 }
 
