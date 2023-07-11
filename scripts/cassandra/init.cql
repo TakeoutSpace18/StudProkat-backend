@@ -9,9 +9,8 @@ CREATE TABLE StudProKat.Coupons
 
 CREATE TABLE StudProKat.history_by_user
 (
-    id                 UUID,
-    user_id            INT,
-    client_id          INT,
+    user_id            UUID,
+    client_id          UUID,
     product_id         INT,
     client_name        TEXT,
     client_surname     TEXT,
@@ -20,12 +19,11 @@ CREATE TABLE StudProKat.history_by_user
     end_date           DATE,
     start_date         DATE,
     active             BOOLEAN,
-    PRIMARY KEY ( (id), active )
-) WITH CLUSTERING ORDER BY (active DESC);
+    PRIMARY KEY ( (active), user_id )
+) WITH CLUSTERING ORDER BY (user_id DESC);
 
 CREATE TABLE StudProKat.products_by_ad_type
 (
-    id                  UUID,
     user_id             UUID,
     ad_type             TEXT,
     address             TEXT,
@@ -36,14 +34,11 @@ CREATE TABLE StudProKat.products_by_ad_type
     price               INT,
     product_description TEXT,
     creation_date       DATE ,
-    PRIMARY KEY ( (id), ad_type )
-) WITH CLUSTERING ORDER BY (ad_type ASC);
-
-CREATE INDEX idx_Products_0 ON StudProKat.products_by_ad_type (user_id);
+    PRIMARY KEY ( (ad_type), user_id)
+) WITH CLUSTERING ORDER BY (user_id ASC);
 
 CREATE TABLE StudProKat.products_by_price
 (
-    id                  UUID,
     user_id             UUID,
     ad_type             TEXT,
     address             TEXT,
@@ -54,14 +49,11 @@ CREATE TABLE StudProKat.products_by_price
     price               INT,
     product_description TEXT,
     creation_date       DATE,
-    PRIMARY KEY ( (id), price )
+    PRIMARY KEY ( (user_id),price )
 ) WITH CLUSTERING ORDER BY (price ASC);
-
-CREATE INDEX idx_Products_1 ON StudProKat.products_by_price (user_id);
 
 CREATE TABLE StudProKat.products_by_product_type
 (
-    id                  UUID,
     user_id             UUID,
     ad_type             TEXT,
     address             TEXT,
@@ -72,14 +64,12 @@ CREATE TABLE StudProKat.products_by_product_type
     price               INT,
     product_description TEXT,
     creation_date       DATE,
-    PRIMARY KEY ( (id), product_type )
-) WITH CLUSTERING ORDER BY (product_type ASC);
+    PRIMARY KEY (  (product_type), user_id )
+) WITH CLUSTERING ORDER BY (user_id ASC);
 
-CREATE INDEX idx_Products ON StudProKat.products_by_product_type (user_id);
 
 CREATE TABLE StudProKat.reviews_by_user
 (
-    id          UUID,
     user_id     UUID,
     client_id   UUID,
     name        TEXT,
@@ -88,7 +78,7 @@ CREATE TABLE StudProKat.reviews_by_user
     rating      TEXT,
     text        TEXT,
     date        DATE,
-    PRIMARY KEY ( (id), date )
+    PRIMARY KEY ((user_id), date )
 ) WITH CLUSTERING ORDER BY (date DESC);
 
 CREATE TABLE StudProKat.users_by_id
