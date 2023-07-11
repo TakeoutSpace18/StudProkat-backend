@@ -17,7 +17,9 @@ public class Mocks {
                 "Ivanovich",
                 "a;lskdjf",
                 Set.of("gg.com"),
+                "addr",
                 gen.generateId(null),
+                PermissionLevel.USER,
                 LocalDate.now());
 
     }

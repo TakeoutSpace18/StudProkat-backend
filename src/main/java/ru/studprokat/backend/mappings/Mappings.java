@@ -13,7 +13,9 @@ public class Mappings {
                 entity.getMiddleName(),
                 entity.getEmail(),
                 entity.getSocialNetworks(),
+                entity.getAddress(),
                 entity.getId(),
+                entity.getPermissionLevel(),
                 entity.getRegistrationDate()
         );
     }
@@ -23,6 +25,7 @@ public class Mappings {
                 .setSurname(dto.getSurname())
                 .setMiddleName(dto.getMiddleName())
                 .setEmail(dto.getEmail())
+                .setAddress(dto.getAddress())
                 .setSocialNetworks(dto.getSocialNetworks());
     }
 
