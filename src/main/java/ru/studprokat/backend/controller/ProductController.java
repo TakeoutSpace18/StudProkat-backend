@@ -1,27 +1,37 @@
 package ru.studprokat.backend.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.studprokat.backend.dto.ProductDto;
+import ru.studprokat.backend.service.ProductService;
 import ru.studprokat.backend.utils.Mocks;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @Validated
 @RequestMapping(value = "renting/products", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProductController {
+    private final ProductService productService;
+
+    @Autowired
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
     @PostMapping
     public ResponseEntity<ProductDto> create(@RequestBody ProductDto productDto) {
-        return ResponseEntity.ok(productDto);
+        return ResponseEntity.ok(productService.create(productDto));
     }
 
     @DeleteMapping(value = "{productId}")
-    public ResponseEntity<String> delete(@PathVariable String productId) {
-        return ResponseEntity.ok(productId);
+    public ResponseEntity<Void> delete(@PathVariable UUID productId) {
+        productService.delete(productId);
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping(value = "{productId}")
@@ -32,11 +42,11 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<List<ProductDto>> list() {
-        return ResponseEntity.ok(List.of(Mocks.productDto(), Mocks.productDto()));
+        return ResponseEntity.ok(productService.list());
     }
 
     @GetMapping(value = "{productId}")
-    public ResponseEntity<ProductDto> getById(@PathVariable String productId) {
-        return ResponseEntity.ok(Mocks.productDto());
+    public ResponseEntity<ProductDto> getById(@PathVariable UUID productId) {
+        return ResponseEntity.ok(productService.findById(productId));
     }
 }

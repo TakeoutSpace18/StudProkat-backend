@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.studprokat.backend.dto.ValidationExceptionDto;
 import ru.studprokat.backend.exception.NotFoundException;
+import ru.studprokat.backend.exception.ProductNotFoundException;
 
+import java.awt.print.PrinterException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +43,11 @@ public class ErrorControllerAdvice {
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorMessage> handleBadCredentialException(BadCredentialsException exception) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorMessage(exception.getMessage()));
+    }
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<ErrorMessage> handleProductNotFoundException(ProductNotFoundException exception) {
+        log.error(exception.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessage(exception.getMessage()));
     }
 }
 

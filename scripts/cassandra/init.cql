@@ -3,12 +3,13 @@ CREATE KEYSPACE StudProKat WITH REPLICATION = {'class': 'SimpleStrategy', 'repli
 CREATE TABLE StudProKat.Coupons
 (
     coupon TEXT,
-    money INT,
+    money  INT,
     PRIMARY KEY ( coupon )
 );
 
 CREATE TABLE StudProKat.history_by_user
 (
+    id                 UUID,
     user_id            UUID,
     client_id          UUID,
     product_id         INT,
@@ -24,6 +25,7 @@ CREATE TABLE StudProKat.history_by_user
 
 CREATE TABLE StudProKat.products_by_ad_type
 (
+    id                  UUID,
     user_id             UUID,
     ad_type             TEXT,
     address             TEXT,
@@ -33,12 +35,13 @@ CREATE TABLE StudProKat.products_by_ad_type
     status              TEXT,
     price               INT,
     product_description TEXT,
-    creation_date       DATE ,
+    creation_date       DATE,
     PRIMARY KEY ( (ad_type), user_id)
 ) WITH CLUSTERING ORDER BY (user_id ASC);
 
 CREATE TABLE StudProKat.products_by_price
 (
+    id                  UUID,
     user_id             UUID,
     ad_type             TEXT,
     address             TEXT,
@@ -49,11 +52,28 @@ CREATE TABLE StudProKat.products_by_price
     price               INT,
     product_description TEXT,
     creation_date       DATE,
-    PRIMARY KEY ( (user_id),price )
+    PRIMARY KEY ( (user_id), price )
 ) WITH CLUSTERING ORDER BY (price ASC);
+
+CREATE TABLE StudProKat.products_by_id
+(
+    id                  UUID,
+    user_id             UUID,
+    ad_type             TEXT,
+    address             TEXT,
+    photo               TEXT,
+    product_name        TEXT,
+    product_type        TEXT,
+    status              TEXT,
+    price               INT,
+    product_description TEXT,
+    creation_date       DATE,
+    PRIMARY KEY ( id )
+);
 
 CREATE TABLE StudProKat.products_by_product_type
 (
+    id                  UUID,
     user_id             UUID,
     ad_type             TEXT,
     address             TEXT,
@@ -64,12 +84,13 @@ CREATE TABLE StudProKat.products_by_product_type
     price               INT,
     product_description TEXT,
     creation_date       DATE,
-    PRIMARY KEY (  (product_type), user_id )
+    PRIMARY KEY ( (product_type), user_id )
 ) WITH CLUSTERING ORDER BY (user_id ASC);
 
 
 CREATE TABLE StudProKat.reviews_by_user
 (
+    id          UUID,
     user_id     UUID,
     client_id   UUID,
     name        TEXT,
@@ -99,7 +120,7 @@ CREATE TABLE StudProKat.users_by_mail
     password          TEXT,
     id                UUID,
     registration_date DATE,
-    permission_level   TEXT,
+    permission_level  TEXT,
     PRIMARY KEY ( email )
 );
 

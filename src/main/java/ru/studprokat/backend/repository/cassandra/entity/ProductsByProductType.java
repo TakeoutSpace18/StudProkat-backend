@@ -3,6 +3,9 @@ package ru.studprokat.backend.repository.cassandra.entity;
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
 import org.springframework.data.cassandra.core.mapping.*;
 
+import java.time.LocalDate;
+import java.util.UUID;
+
 @Table(value = "products_by_product_type")
 public class ProductsByProductType {
     @PrimaryKey
@@ -28,7 +31,7 @@ public class ProductsByProductType {
     @Column
     private String address;
     @Column
-    private java.sql.Date creationDate;
+    private LocalDate creationDate;
     @Column
     private String photo;
     @Column
@@ -39,6 +42,8 @@ public class ProductsByProductType {
     private String productName;
     @Column
     private String status;
+    @Column
+    private UUID id;
 
 
     public String getId() {
@@ -77,11 +82,11 @@ public class ProductsByProductType {
     }
 
 
-    public java.sql.Date getCreationDate() {
+    public LocalDate getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(java.sql.Date creationDate) {
+    public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
 

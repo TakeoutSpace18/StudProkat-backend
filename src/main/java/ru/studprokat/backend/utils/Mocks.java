@@ -28,14 +28,4 @@ public class Mocks {
         return List.of(Mocks.userDto1(), Mocks.userDto1());
     }
 
-    public static ProductDto productDto() {
-        return new ProductDto(AdvertisementType.RENT,
-                "frying pan",
-                "Cookware",
-                "excellent thing",
-                "some address",
-                "http://some_url.com",
-                500,
-                RentTimeframe.DAY);
-    }
 }

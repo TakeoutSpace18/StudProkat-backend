@@ -1,46 +1,66 @@
 package ru.studprokat.backend.repository.cassandra.entity;
 
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
-import org.springframework.data.cassandra.core.mapping.PrimaryKey;
-import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass;
-import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
-import org.springframework.data.cassandra.core.mapping.Table;
+import org.springframework.data.cassandra.core.mapping.*;
+import ru.studprokat.backend.utils.AdvertisementStatus;
+import ru.studprokat.backend.utils.AdvertisementType;
+
+import java.time.LocalDate;
+import java.util.UUID;
 
 @Table(value = "products_by_ad_type")
 public class ProductsByAdType {
     @PrimaryKey
     public ProductsByAdType.Key key = new ProductsByAdType.Key();
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
     @PrimaryKeyClass
     public static class Key {
         @PrimaryKeyColumn(name = "ad_type", type = PrimaryKeyType.PARTITIONED, ordinal = 0)
-        private String adType;
+        private AdvertisementType adType;
         @PrimaryKeyColumn(name = "user_id", type = PrimaryKeyType.CLUSTERED, ordinal = 1)
-        private String userId;
+        private UUID userId;
 
         public Key() {
         }
 
-        public Key(String adType) {
+        public Key(AdvertisementType adType) {
             this.adType = adType;
         }
     }
 
+    @Column
     private String address;
-    private java.sql.Date creationDate;
+    @Column
+    private LocalDate creationDate;
+    @Column
     private String photo;
-    private long price;
+    @Column
+    private int price;
+    @Column
     private String productDescription;
+    @Column
     private String productName;
+    @Column
     private String productType;
-    private String status;
+    @Column
+    private AdvertisementStatus status;
+    @Column
+    private UUID id;
 
 
-    public String getAdType() {
+    public AdvertisementType getAdType() {
         return this.key.adType;
     }
 
-    public void setAdType(String adType) {
+    public void setAdType(AdvertisementType adType) {
         this.key.adType = adType;
     }
 
@@ -54,11 +74,11 @@ public class ProductsByAdType {
     }
 
 
-    public java.sql.Date getCreationDate() {
+    public LocalDate getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(java.sql.Date creationDate) {
+    public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
 
@@ -72,11 +92,11 @@ public class ProductsByAdType {
     }
 
 
-    public long getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(long price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
@@ -108,20 +128,20 @@ public class ProductsByAdType {
     }
 
 
-    public String getStatus() {
+    public AdvertisementStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(AdvertisementStatus status) {
         this.status = status;
     }
 
 
-    public String getUserId() {
+    public UUID getUserId() {
         return this.key.userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(UUID userId) {
         this.key.userId = userId;
     }
 
