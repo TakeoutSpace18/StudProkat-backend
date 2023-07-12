@@ -15,13 +15,10 @@ import ru.studprokat.backend.service.UsersService;
 
 public class CustomConfigurer<B extends HttpSecurityBuilder<B>, T extends CustomConfigurer<B, T>> extends AbstractHttpConfigurer<T, B> {
     private CustomSecurityFilter securityFilter;
-    private AnonymousAuthenticationFilter anonymousFilter;
-
     @Override
     public void init(B builder) throws Exception {
         super.init(builder);
         this.securityFilter = new CustomSecurityFilter();
-        this.anonymousFilter = new AnonymousAuthenticationFilter("anonymous");
     }
 
     @Override
@@ -39,7 +36,6 @@ public class CustomConfigurer<B extends HttpSecurityBuilder<B>, T extends Custom
         this.securityFilter.setAuthenticationManager(builder.getSharedObject(AuthenticationManager.class));
         this.securityFilter.setSecurityContextRepository(builder.getSharedObject(SecurityContextRepository.class));
         this.securityFilter.setRequestMatcher(new AntPathRequestMatcher("/renting/login", HttpMethod.POST.name()));
-//        builder.addFilterBefore(this.securityFilter, UsernamePasswordAuthenticationFilter.class);
-        builder.addFilterBefore(this.anonymousFilter, UsernamePasswordAuthenticationFilter.class);
+        builder.addFilterBefore(this.securityFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
