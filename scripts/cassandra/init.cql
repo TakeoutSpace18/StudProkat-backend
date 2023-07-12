@@ -4,6 +4,7 @@ CREATE TABLE StudProKat.Coupons
 (
     coupon TEXT,
     money  INT,
+    used   BOOLEAN,
     PRIMARY KEY ( coupon )
 );
 

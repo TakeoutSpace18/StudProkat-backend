@@ -13,8 +13,10 @@ import ru.studprokat.backend.exception.UsersNotFoundException;
 import ru.studprokat.backend.mappings.Mappings;
 import ru.studprokat.backend.repository.cassandra.UsersByEmailRepository;
 import ru.studprokat.backend.repository.cassandra.UsersByIdRepository;
+import ru.studprokat.backend.repository.cassandra.WalletRepository;
 import ru.studprokat.backend.repository.cassandra.entity.UsersByEmail;
 import ru.studprokat.backend.repository.cassandra.entity.UsersById;
+import ru.studprokat.backend.repository.cassandra.entity.Wallet;
 import ru.studprokat.backend.service.UsersService;
 import ru.studprokat.backend.utils.PermissionLevel;
 
@@ -27,15 +29,18 @@ import java.util.UUID;
 public class UsersServiceImpl implements UsersService {
     private final UsersByIdRepository usersByIdRepository;
     private final UsersByEmailRepository usersByEmailRepository;
+    private final WalletRepository walletRepository;
     private final PasswordEncoder passwordEncoder;
     private final ObjectIdGenerators.UUIDGenerator uuidGenerator;
 
     @Autowired
-    public UsersServiceImpl(UsersByIdRepository usersByIdRepository, UsersByEmailRepository usersByEmailRepository, PasswordEncoder passwordEncoder) {
+    public UsersServiceImpl(UsersByIdRepository usersByIdRepository, UsersByEmailRepository usersByEmailRepository, WalletRepository walletRepository, PasswordEncoder passwordEncoder) {
         this.usersByEmailRepository = usersByEmailRepository;
+        this.walletRepository = walletRepository;
+        this.usersByIdRepository = usersByIdRepository;
+
         this.uuidGenerator = new ObjectIdGenerators.UUIDGenerator();
         this.passwordEncoder = passwordEncoder;
-        this.usersByIdRepository = usersByIdRepository;
     }
 
     @Override
@@ -57,6 +62,9 @@ public class UsersServiceImpl implements UsersService {
                 .setId(id)
                 .setRegistrationDate(registrationDate);
 
+        Wallet wallet = new Wallet().setUserId(id).setMoney(0);
+
+        this.walletRepository.save(wallet);
         this.usersByIdRepository.save(usersById);
         this.usersByEmailRepository.save(usersByEmail);
         return this.findById(id);
@@ -78,6 +86,7 @@ public class UsersServiceImpl implements UsersService {
 
         this.usersByEmailRepository.deleteById(usersById.get().getEmail());
         this.usersByIdRepository.deleteById(id);
+        this.walletRepository.deleteById(id);
     }
 
     @Override

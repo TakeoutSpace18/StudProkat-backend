@@ -10,10 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.studprokat.backend.dto.ValidationExceptionDto;
-import ru.studprokat.backend.exception.EmailAlreadyRegisteredException;
-import ru.studprokat.backend.exception.ForbiddenException;
-import ru.studprokat.backend.exception.NotFoundException;
-import ru.studprokat.backend.exception.ProductNotFoundException;
+import ru.studprokat.backend.exception.*;
 
 import java.awt.print.PrinterException;
 import java.util.ArrayList;
@@ -55,6 +52,11 @@ public class ErrorControllerAdvice {
     public ResponseEntity<ErrorMessage> handleProductNotFoundException(ProductNotFoundException exception) {
         log.error(exception.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessage(exception.getMessage()));
+    }
+    @ExceptionHandler(CouponAlreadyUsedException.class)
+    public ResponseEntity<ErrorMessage> handleCouponAlreadyUsedException(ProductNotFoundException exception) {
+        log.error(exception.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ErrorMessage(exception.getMessage()));
     }
 }
 

@@ -8,11 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ru.studprokat.backend.dto.UserInputDto;
-import ru.studprokat.backend.dto.UserLoginDto;
 import ru.studprokat.backend.dto.UserOutputDto;
-import ru.studprokat.backend.exception.ForbiddenException;
 import ru.studprokat.backend.service.UsersService;
-import ru.studprokat.backend.utils.PermissionLevel;
 
 import java.util.List;
 import java.util.UUID;
@@ -37,14 +34,14 @@ public class UserController {
 
     @DeleteMapping(value = "{userId}")
     public ResponseEntity<Void> delete(@PathVariable UUID userId, Authentication auth) {
-        checkPermission(userId, auth);
+        PermissionChecker.checkIdMatchingOrAdminPermission(userId, auth);
         this.usersService.delete(userId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PatchMapping(value = "{userId}")
     public ResponseEntity<UserOutputDto> alter(@RequestBody UserInputDto userInputDto, @PathVariable UUID userId, Authentication auth) {
-        checkPermission(userId, auth);
+        PermissionChecker.checkIdMatchingOrAdminPermission(userId, auth);
         // TODO: read only altered fields
         return ResponseEntity.ok(this.usersService.alter(userId, userInputDto));
     }
@@ -57,13 +54,6 @@ public class UserController {
     @GetMapping(value = "{userId}")
     public ResponseEntity<UserOutputDto> getById(@PathVariable UUID userId) {
         return ResponseEntity.ok(this.usersService.findById(userId));
-    }
-
-    private static void checkPermission(UUID userId, Authentication auth) {
-        UserLoginDto userLoginDto = (UserLoginDto) auth.getDetails();
-        if (userLoginDto.getPermissionLevel() == PermissionLevel.USER && !userLoginDto.getId().equals(userId)) {
-            throw new ForbiddenException();
-        }
     }
 }
 
