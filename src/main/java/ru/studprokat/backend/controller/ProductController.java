@@ -1,5 +1,6 @@
 package ru.studprokat.backend.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import ru.studprokat.backend.service.ProductService;
 import ru.studprokat.backend.utils.Mocks;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -49,6 +51,17 @@ public class ProductController {
         return ResponseEntity.ok(productService.list());
     }
 
+
+    @GetMapping(value = "product_types")
+    public ResponseEntity<Set<String>> getProductTypes(){
+        return ResponseEntity.ok(productService.getProductTypes());
+    }
+
+    @GetMapping(value = "product_types/**")
+    public ResponseEntity<List<ProductDto>> getByProductType(HttpServletRequest request){
+        return ResponseEntity.ok(productService.findByProductType(request.getRequestURI()
+                .split(request.getContextPath() + "/product_types/")[1]));
+    }
     @GetMapping(value = "{productId}")
     public ResponseEntity<ProductDto> getById(@PathVariable UUID productId) {
         return ResponseEntity.ok(productService.findById(productId));

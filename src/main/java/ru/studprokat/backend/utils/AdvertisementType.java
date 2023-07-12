@@ -6,5 +6,7 @@ public enum AdvertisementType {
     @JsonProperty("rent")
     RENT, // сдать в аренду
     @JsonProperty("request")
-    REQUEST // запросить предмет
+    REQUEST, // запросить предмет
+    @JsonProperty("sell")
+    SELL //продажа
 }

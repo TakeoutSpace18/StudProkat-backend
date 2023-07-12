@@ -24,7 +24,9 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service("cassandraProductService")
 public class ProductServiceImpl implements ProductService {
@@ -122,8 +124,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto findByProductType(String productType) {
-        return null;
+    public List<ProductDto> findByProductType(String productType) {
+        List<ProductsByProductType> result = this.productsByProductTypeRepository.findByKey_productType(productType);
+        if (result.isEmpty()){
+            throw new ProductNotFoundException();
+        }
+        return result.stream().map(Mappings::toProductsDTO).toList();
     }
 
     @Override
@@ -133,5 +139,14 @@ public class ProductServiceImpl implements ProductService {
             throw new ProductNotFoundException();
         }
         return Mappings.toProductsDTO(productsById.get());
+    }
+
+    @Override
+    public Set<String> getProductTypes() {
+        List<ProductsByProductType> result = this.productsByProductTypeRepository.findAll();
+        if (result.isEmpty()){
+            throw new ProductNotFoundException();
+        }
+        return result.stream().map(Mappings::toProductType).collect(Collectors.toSet());
     }
 }
