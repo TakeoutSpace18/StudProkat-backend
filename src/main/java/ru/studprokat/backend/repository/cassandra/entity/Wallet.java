@@ -31,4 +31,13 @@ public class Wallet {
         this.money = money;
         return this;
     }
+
+    public Wallet addMoney(int money) {
+        this.money += money;
+        return this;
+    }
+    public Wallet subtractMoney(int money) {
+        this.money -= money;
+        return this;
+    }
 }

@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.HttpSecurityBuilder;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -14,11 +15,13 @@ import ru.studprokat.backend.service.UsersService;
 
 public class CustomConfigurer<B extends HttpSecurityBuilder<B>, T extends CustomConfigurer<B, T>> extends AbstractHttpConfigurer<T, B> {
     private CustomSecurityFilter securityFilter;
+    private AnonymousAuthenticationFilter anonymousFilter;
 
     @Override
     public void init(B builder) throws Exception {
         super.init(builder);
         this.securityFilter = new CustomSecurityFilter();
+        this.anonymousFilter = new AnonymousAuthenticationFilter("anonymous");
     }
 
     @Override
@@ -36,6 +39,7 @@ public class CustomConfigurer<B extends HttpSecurityBuilder<B>, T extends Custom
         this.securityFilter.setAuthenticationManager(builder.getSharedObject(AuthenticationManager.class));
         this.securityFilter.setSecurityContextRepository(builder.getSharedObject(SecurityContextRepository.class));
         this.securityFilter.setRequestMatcher(new AntPathRequestMatcher("/renting/login", HttpMethod.POST.name()));
-        builder.addFilterBefore(this.securityFilter, UsernamePasswordAuthenticationFilter.class);
+//        builder.addFilterBefore(this.securityFilter, UsernamePasswordAuthenticationFilter.class);
+        builder.addFilterBefore(this.anonymousFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

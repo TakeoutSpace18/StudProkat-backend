@@ -9,19 +9,19 @@ import java.util.UUID;
 
 @Table("coupons")
 public class Coupon {
-    @PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED)
-    private UUID coupon;
+    @PrimaryKeyColumn(value = "coupon", type = PrimaryKeyType.PARTITIONED)
+    private UUID id;
     @Column
     private int money;
     @Column
     boolean used;
 
-    public UUID getCoupon() {
-        return coupon;
+    public UUID getId() {
+        return id;
     }
 
-    public Coupon setCoupon(UUID coupon) {
-        this.coupon = coupon;
+    public Coupon setId(UUID id) {
+        this.id = id;
         return this;
     }
 

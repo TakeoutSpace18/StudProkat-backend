@@ -21,4 +21,11 @@ public class PermissionChecker {
             throw new ForbiddenException();
         }
     }
+
+    public static void checkIdMatching(UUID targetId, Authentication auth) {
+        UserLoginDto userLoginDto = (UserLoginDto) auth.getDetails();
+        if (!userLoginDto.getId().equals(targetId)) {
+            throw new ForbiddenException();
+        }
+    }
 }
