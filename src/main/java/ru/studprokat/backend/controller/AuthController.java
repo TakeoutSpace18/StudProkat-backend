@@ -20,7 +20,7 @@ public class AuthController {
     @GetMapping("success")
     public ResponseEntity<AuthSuccessDto> success(Authentication auth) {
         UserLoginDto user = (UserLoginDto) auth.getDetails();
-        AuthSuccessDto body = new AuthSuccessDto(user.getId(), user.getPermissionLevel());
+        AuthSuccessDto body = new AuthSuccessDto(user.getId(), user.getPermissionLevel(), user.getRegistrationDate());
         return ResponseEntity.status(HttpStatus.OK).body(body);
     }
 
