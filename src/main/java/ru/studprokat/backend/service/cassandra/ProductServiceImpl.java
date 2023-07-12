@@ -55,7 +55,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto create(ProductDto productDto, Authentication authentication) {
 
-        //TODO добавить мапер и остальные таблицы
+        //TODO добавить мапер
         ProductsById productsById = new ProductsById();
         UUID id = this.uuidGenerator.generateId(null);
         UserLoginDto userLoginDto = (UserLoginDto) authentication.getDetails();
