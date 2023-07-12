@@ -39,7 +39,7 @@ public class CustomSecurityFilter extends OncePerRequestFilter {
     private SecurityContextRepository securityContextRepository;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (requestWithoutAuthentification(request)) {
+        if (requestWithoutAuthentication(request)) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -101,7 +101,7 @@ public class CustomSecurityFilter extends OncePerRequestFilter {
         return this;
     }
 
-    private boolean requestWithoutAuthentification(HttpServletRequest request) {
+    private boolean requestWithoutAuthentication(HttpServletRequest request) {
         return !requestMatcher.matches(request);
     }
 }

@@ -35,7 +35,7 @@ public class CustomConfigurer<B extends HttpSecurityBuilder<B>, T extends Custom
 
         this.securityFilter.setAuthenticationManager(builder.getSharedObject(AuthenticationManager.class));
         this.securityFilter.setSecurityContextRepository(builder.getSharedObject(SecurityContextRepository.class));
-        this.securityFilter.setRequestMatcher(new AntPathRequestMatcher("/login", HttpMethod.POST.name()));
+        this.securityFilter.setRequestMatcher(new AntPathRequestMatcher("/renting/login", HttpMethod.POST.name()));
         builder.addFilterBefore(this.securityFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
