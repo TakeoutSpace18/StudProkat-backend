@@ -58,11 +58,14 @@ public class ErrorControllerAdvice {
         log.error(exception.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ErrorMessage(exception.getMessage()));
     }
+    @ExceptionHandler(InternalServerError.class)
+    public ResponseEntity<ErrorMessage> handleInternalServerErrorException(ProductNotFoundException exception) {
+        log.error(exception.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorMessage(exception.getMessage()));
+    }
+    @ExceptionHandler(CouponNotFoundException.class)
+    public ResponseEntity<ErrorMessage> handleCouponNotFoundException(ProductNotFoundException exception) {
+        log.error(exception.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessage(exception.getMessage()));
+    }
 }
-
-
-
-
-
-
-
