@@ -10,16 +10,13 @@ import java.util.UUID;
 public final class UserOutputDto extends UserBaseDto {
     @JsonProperty("id")
     private final UUID id;
-    @JsonProperty("permission_level")
-    private final PermissionLevel permissionLevel;
 
     @JsonProperty("registration_date")
     private final LocalDate registrationDate;
 
-    public UserOutputDto(String name, String surname, String middleName, String email, Set<String> socialNetworks, String address, UUID id, PermissionLevel permissionLevel, LocalDate registrationDate) {
-        super(name, surname, middleName, email, socialNetworks, address);
+    public UserOutputDto(String name, String surname, String middleName, String email, Set<String> socialNetworks, UUID id, LocalDate registrationDate) {
+        super(name, surname, middleName, email, socialNetworks);
         this.id = id;
-        this.permissionLevel = permissionLevel;
         this.registrationDate = registrationDate;
     }
 }

@@ -26,10 +26,6 @@ public class UsersById {
     private String middleName;
     @Column(value = "social_networks")
     private Set<String> socialNetworks;
-    @Column
-    private String address;
-    @Column(value = "permission_level")
-    private PermissionLevel permissionLevel;
     @Column(value = "registration_date")
     private LocalDate registrationDate;
 
@@ -83,15 +79,6 @@ public class UsersById {
         return this;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public UsersById setAddress(String address) {
-        this.address = address;
-        return this;
-    }
-
     public LocalDate getRegistrationDate() {
         return registrationDate;
     }
@@ -103,14 +90,5 @@ public class UsersById {
 
     public UUID getId() {
         return id;
-    }
-
-    public PermissionLevel getPermissionLevel() {
-        return permissionLevel;
-    }
-
-    public UsersById setPermissionLevel(PermissionLevel permissionLevel) {
-        this.permissionLevel = permissionLevel;
-        return this;
     }
 }

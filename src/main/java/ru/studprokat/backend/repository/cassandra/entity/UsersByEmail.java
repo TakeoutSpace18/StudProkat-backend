@@ -7,9 +7,10 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
 import org.springframework.data.cassandra.core.mapping.Table;
 import ru.studprokat.backend.utils.PermissionLevel;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
-@Table("user_id_by_email")
+@Table("users_by_mail")
 public class UsersByEmail {
     @Id
     @PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED)
@@ -20,6 +21,8 @@ public class UsersByEmail {
     private PermissionLevel permissionLevel;
     @Column
     private String password;
+    @Column(value = "registration_date")
+    private LocalDate registrationDate;
 
     public PermissionLevel getPermissionLevel() {
         return permissionLevel;
@@ -27,6 +30,15 @@ public class UsersByEmail {
 
     public UsersByEmail setPermissionLevel(PermissionLevel permissionLevel) {
         this.permissionLevel = permissionLevel;
+        return this;
+    }
+
+    public LocalDate getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public UsersByEmail setRegistrationDate(LocalDate registrationDate) {
+        this.registrationDate = registrationDate;
         return this;
     }
 
