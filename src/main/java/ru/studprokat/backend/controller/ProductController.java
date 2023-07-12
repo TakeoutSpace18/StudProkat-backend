@@ -3,9 +3,11 @@ package ru.studprokat.backend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.studprokat.backend.dto.ProductDto;
+import ru.studprokat.backend.dto.UserLoginDto;
 import ru.studprokat.backend.service.ProductService;
 import ru.studprokat.backend.utils.Mocks;
 
@@ -24,12 +26,14 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductDto> create(@RequestBody ProductDto productDto) {
-        return ResponseEntity.ok(productService.create(productDto));
+    public ResponseEntity<ProductDto> create(@RequestBody ProductDto productDto, Authentication authentication) {
+        return ResponseEntity.ok(productService.create(productDto, authentication));
     }
 
     @DeleteMapping(value = "{productId}")
-    public ResponseEntity<Void> delete(@PathVariable UUID productId) {
+    public ResponseEntity<Void> delete(@PathVariable UUID productId, Authentication auth) {
+        ProductDto productDto = productService.findById(productId);
+        PermissionChecker.checkIdMatchingOrAdminPermission(productDto.getUserId(), auth);
         productService.delete(productId);
         return ResponseEntity.ok().build();
     }

@@ -2,15 +2,19 @@ package ru.studprokat.backend.service.cassandra;
 
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import ru.studprokat.backend.dto.ProductDto;
+import ru.studprokat.backend.dto.UserLoginDto;
 import ru.studprokat.backend.exception.ProductNotFoundException;
 import ru.studprokat.backend.mappings.Mappings;
 import ru.studprokat.backend.repository.cassandra.ProductsByAdTypeRepository;
 import ru.studprokat.backend.repository.cassandra.ProductsByIdRepository;
 import ru.studprokat.backend.repository.cassandra.ProductsByPriceRepository;
 import ru.studprokat.backend.repository.cassandra.ProductsByProductTypeRepository;
+import ru.studprokat.backend.repository.cassandra.entity.ProductsByAdType;
 import ru.studprokat.backend.repository.cassandra.entity.ProductsById;
+import ru.studprokat.backend.repository.cassandra.entity.ProductsByProductType;
 import ru.studprokat.backend.service.ProductService;
 import ru.studprokat.backend.utils.AdvertisementStatus;
 import ru.studprokat.backend.utils.AdvertisementType;
@@ -49,12 +53,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto create(ProductDto productDto) {
+    public ProductDto create(ProductDto productDto, Authentication authentication) {
+
         //TODO добавить мапер и остальные таблицы
         ProductsById productsById = new ProductsById();
         UUID id = this.uuidGenerator.generateId(null);
+        UserLoginDto userLoginDto = (UserLoginDto) authentication.getDetails();
         productsById.setId(id);
-        productsById.setUserId(productDto.getUserId());
+        productsById.setUserId(userLoginDto.getId());
         productsById.setProductDescription(productDto.getDescription());
         productsById.setAdType(productDto.getAdType());
         productsById.setAddress(productDto.getAddress());
@@ -65,7 +71,35 @@ public class ProductServiceImpl implements ProductService {
         productsById.setProductType(productDto.getProductType());
         productsById.setStatus(AdvertisementStatus.FREE);
 
+        ProductsByAdType productsByAdType = new ProductsByAdType();
+        productsByAdType.setId(id);
+        productsByAdType.setUserId(userLoginDto.getId());
+        productsByAdType.setProductDescription(productDto.getDescription());
+        productsByAdType.setAdType(productDto.getAdType());
+        productsByAdType.setAddress(productDto.getAddress());
+        productsByAdType.setCreationDate(LocalDate.now());
+        productsByAdType.setPhoto(productDto.getPhoto());
+        productsByAdType.setPrice(productDto.getPrice());
+        productsByAdType.setProductName(productDto.getName());
+        productsByAdType.setProductType(productDto.getProductType());
+        productsByAdType.setStatus(AdvertisementStatus.FREE);
+
+        ProductsByProductType productsByProductType = new ProductsByProductType();
+        productsByProductType.setId(id);
+        productsByProductType.setUserId(userLoginDto.getId());
+        productsByProductType.setProductDescription(productDto.getDescription());
+        productsByProductType.setAdType(productDto.getAdType());
+        productsByProductType.setAddress(productDto.getAddress());
+        productsByProductType.setCreationDate(LocalDate.now());
+        productsByProductType.setPhoto(productDto.getPhoto());
+        productsByProductType.setPrice(productDto.getPrice());
+        productsByProductType.setProductName(productDto.getName());
+        productsByProductType.setProductType(productDto.getProductType());
+        productsByProductType.setStatus(AdvertisementStatus.FREE);
+
         this.productsByIdRepository.save(productsById);
+        this.productsByAdTypeRepository.save(productsByAdType);
+        this.productsByProductTypeRepository.save(productsByProductType);
 
         return this.findById(id);
     }
@@ -76,8 +110,10 @@ public class ProductServiceImpl implements ProductService {
         if (productsById.isEmpty()){
             throw new ProductNotFoundException();
         }
+
         this.productsByIdRepository.deleteById(id);
-        //TODO delete all product info too
+        this.productsByProductTypeRepository.deleteByKey_productTypeAndKey_Id(productsById.get().getProductType(),productsById.get().getId());
+        this.productsByAdTypeRepository.deleteByKey_AdTypeAndKey_Id(productsById.get().getAdType(),productsById.get().getId());
     }
 
     @Override

@@ -14,19 +14,19 @@ public class ProductsByAdType {
     public ProductsByAdType.Key key = new ProductsByAdType.Key();
 
     public UUID getId() {
-        return id;
+        return this.key.id;
     }
 
     public void setId(UUID id) {
-        this.id = id;
+        this.key.id = id;
     }
 
     @PrimaryKeyClass
     public static class Key {
         @PrimaryKeyColumn(name = "ad_type", type = PrimaryKeyType.PARTITIONED, ordinal = 0)
         private AdvertisementType adType;
-        @PrimaryKeyColumn(name = "user_id", type = PrimaryKeyType.CLUSTERED, ordinal = 1)
-        private UUID userId;
+        @PrimaryKeyColumn(name = "id", type = PrimaryKeyType.CLUSTERED, ordinal = 1)
+        private UUID id;
 
         public Key() {
         }
@@ -35,25 +35,24 @@ public class ProductsByAdType {
             this.adType = adType;
         }
     }
-
+    @Column(value = "user_id")
+    private UUID userId;
     @Column
     private String address;
-    @Column
+    @Column(value = "creation_date")
     private LocalDate creationDate;
     @Column
     private String photo;
     @Column
     private int price;
-    @Column
+    @Column(value = "product_description")
     private String productDescription;
-    @Column
+    @Column(value = "product_name")
     private String productName;
-    @Column
+    @Column(value = "product_type")
     private String productType;
     @Column
     private AdvertisementStatus status;
-    @Column
-    private UUID id;
 
 
     public AdvertisementType getAdType() {
@@ -138,11 +137,11 @@ public class ProductsByAdType {
 
 
     public UUID getUserId() {
-        return this.key.userId;
+        return userId;
     }
 
     public void setUserId(UUID userId) {
-        this.key.userId = userId;
+        this.userId = userId;
     }
 
 }

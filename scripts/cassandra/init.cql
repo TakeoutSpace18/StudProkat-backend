@@ -21,8 +21,8 @@ CREATE TABLE StudProKat.history_by_user
     end_date           DATE,
     start_date         DATE,
     active             BOOLEAN,
-    PRIMARY KEY ( (active), user_id )
-) WITH CLUSTERING ORDER BY (user_id DESC);
+    PRIMARY KEY ( (active), id)
+) WITH CLUSTERING ORDER BY (id ASC);
 
 CREATE TABLE StudProKat.products_by_ad_type
 (
@@ -37,8 +37,8 @@ CREATE TABLE StudProKat.products_by_ad_type
     price               INT,
     product_description TEXT,
     creation_date       DATE,
-    PRIMARY KEY ( (ad_type), user_id)
-) WITH CLUSTERING ORDER BY (user_id ASC);
+    PRIMARY KEY ( (ad_type), id)
+) WITH CLUSTERING ORDER BY (id ASC);
 
 CREATE TABLE StudProKat.products_by_price
 (
@@ -53,7 +53,7 @@ CREATE TABLE StudProKat.products_by_price
     price               INT,
     product_description TEXT,
     creation_date       DATE,
-    PRIMARY KEY ( (user_id), price )
+    PRIMARY KEY ( (user_id), price, id )
 ) WITH CLUSTERING ORDER BY (price ASC);
 
 CREATE TABLE StudProKat.products_by_id
@@ -85,8 +85,8 @@ CREATE TABLE StudProKat.products_by_product_type
     price               INT,
     product_description TEXT,
     creation_date       DATE,
-    PRIMARY KEY ( (product_type), user_id )
-) WITH CLUSTERING ORDER BY (user_id ASC);
+    PRIMARY KEY ( (product_type),id )
+) WITH CLUSTERING ORDER BY (id ASC);
 
 
 CREATE TABLE StudProKat.reviews_by_user

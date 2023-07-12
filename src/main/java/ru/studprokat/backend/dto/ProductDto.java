@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import ru.studprokat.backend.utils.AdvertisementStatus;
 import ru.studprokat.backend.utils.AdvertisementType;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.UUID;
 
