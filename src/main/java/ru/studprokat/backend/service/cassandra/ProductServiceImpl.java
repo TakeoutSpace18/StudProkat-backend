@@ -119,8 +119,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto findByAdType(AdvertisementType advertisementType) {
-        return null;
+    public List<ProductDto> findByAdType(AdvertisementType advertisementType) {
+        List<ProductsByAdType> result = this.productsByAdTypeRepository.findByKey_adType(advertisementType);
+        if (result.isEmpty()){
+            throw new ProductNotFoundException();
+        }
+        return result.stream().map(Mappings::toProductsDTO).toList();
     }
 
     @Override

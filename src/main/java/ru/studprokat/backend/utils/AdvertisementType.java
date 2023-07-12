@@ -3,10 +3,10 @@ package ru.studprokat.backend.utils;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public enum AdvertisementType {
-    @JsonProperty("rent")
+    @JsonProperty("RENT")
     RENT, // сдать в аренду
-    @JsonProperty("request")
+    @JsonProperty("REQUEST")
     REQUEST, // запросить предмет
-    @JsonProperty("sell")
+    @JsonProperty("SELL")
     SELL //продажа
 }

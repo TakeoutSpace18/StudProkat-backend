@@ -12,7 +12,7 @@ public interface ProductService {
     List<ProductDto> list();
     ProductDto create(ProductDto productDto, Authentication authentication);
     void delete (UUID id);
-    ProductDto findByAdType(AdvertisementType advertisementType);
+    List<ProductDto> findByAdType(AdvertisementType advertisementType);
     List<ProductDto> findByProductType(String productType);
     ProductDto findById(UUID id);
 
