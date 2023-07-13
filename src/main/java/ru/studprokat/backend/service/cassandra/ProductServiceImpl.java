@@ -14,6 +14,7 @@ import ru.studprokat.backend.repository.cassandra.ProductsByPriceRepository;
 import ru.studprokat.backend.repository.cassandra.ProductsByProductTypeRepository;
 import ru.studprokat.backend.repository.cassandra.entity.ProductsByAdType;
 import ru.studprokat.backend.repository.cassandra.entity.ProductsById;
+import ru.studprokat.backend.repository.cassandra.entity.ProductsByPrice;
 import ru.studprokat.backend.repository.cassandra.entity.ProductsByProductType;
 import ru.studprokat.backend.service.ProductService;
 import ru.studprokat.backend.utils.AdvertisementStatus;
@@ -99,9 +100,23 @@ public class ProductServiceImpl implements ProductService {
         productsByProductType.setProductType(productDto.getProductType());
         productsByProductType.setStatus(AdvertisementStatus.FREE);
 
+        ProductsByPrice productsByPrice = new ProductsByPrice();
+        productsByPrice.setId(id);
+        productsByPrice.setUserId(userLoginDto.getId());
+        productsByPrice.setProductDescription(productDto.getDescription());
+        productsByPrice.setAdType(productDto.getAdType());
+        productsByPrice.setAddress(productDto.getAddress());
+        productsByPrice.setCreationDate(LocalDate.now());
+        productsByPrice.setPhoto(productDto.getPhoto());
+        productsByPrice.setPrice(productDto.getPrice());
+        productsByPrice.setProductName(productDto.getName());
+        productsByPrice.setProductType(productDto.getProductType());
+        productsByPrice.setStatus(AdvertisementStatus.FREE);
+
         this.productsByIdRepository.save(productsById);
         this.productsByAdTypeRepository.save(productsByAdType);
         this.productsByProductTypeRepository.save(productsByProductType);
+        this.productsByPriceRepository.save(productsByPrice);
 
         return this.findById(id);
     }
@@ -116,6 +131,7 @@ public class ProductServiceImpl implements ProductService {
         this.productsByIdRepository.deleteById(id);
         this.productsByProductTypeRepository.deleteByKey_productTypeAndKey_Id(productsById.get().getProductType(),productsById.get().getId());
         this.productsByAdTypeRepository.deleteByKey_AdTypeAndKey_Id(productsById.get().getAdType(),productsById.get().getId());
+        this.productsByPriceRepository.deleteByKey_UserIdAndKey_PriceAndKey_Id(productsById.get().getUserId(), productsById.get().getPrice(),productsById.get().getId());
     }
 
     @Override
@@ -130,6 +146,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDto> findByProductType(String productType) {
         List<ProductsByProductType> result = this.productsByProductTypeRepository.findByKey_productType(productType);
+        if (result.isEmpty()){
+            throw new ProductNotFoundException();
+        }
+        return result.stream().map(Mappings::toProductsDTO).toList();
+    }
+
+    @Override
+    public List<ProductDto> findByUserId(UUID userId) {
+        List<ProductsByPrice> result = this.productsByPriceRepository.findByKey_UserId(userId);
         if (result.isEmpty()){
             throw new ProductNotFoundException();
         }

@@ -2,6 +2,8 @@ package ru.studprokat.backend.repository.cassandra.entity;
 
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
 import org.springframework.data.cassandra.core.mapping.*;
+import ru.studprokat.backend.utils.AdvertisementStatus;
+import ru.studprokat.backend.utils.AdvertisementType;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -13,62 +15,62 @@ public class ProductsByPrice {
     public ProductsByPrice.Key key = new ProductsByPrice.Key();
 
     public UUID getId() {
-        return id;
+        return this.key.id;
     }
 
     public void setId(UUID id) {
-        this.id = id;
+        this.key.id = id;
     }
 
     @PrimaryKeyClass
     public static class Key {
-        @PrimaryKeyColumn(name = "price", type = PrimaryKeyType.PARTITIONED, ordinal = 0)
-        private long price;
-        @PrimaryKeyColumn(name = "user_id", type = PrimaryKeyType.CLUSTERED, ordinal = 1)
-        private String userId;
+        @PrimaryKeyColumn(name = "price", type = PrimaryKeyType.PARTITIONED, ordinal = 1)
+        private int price;
+        @PrimaryKeyColumn(name = "user_id", type = PrimaryKeyType.CLUSTERED, ordinal = 0)
+        private UUID userId;
+        @PrimaryKeyColumn(name = "id", type = PrimaryKeyType.CLUSTERED, ordinal = 2)
+        private UUID id;
 
         public Key() {
         }
 
-        public Key(long price) {
+        public Key(int price) {
             this.price = price;
         }
     }
 
-    @Column
-    private String adType;
+    @Column(value = "ad_type")
+    private AdvertisementType adType;
     @Column
     private String address;
-    @Column
+    @Column(value = "creation_date")
     private LocalDate creationDate;
     @Column
     private String photo;
-    @Column
+    @Column(value = "product_description")
     private String productDescription;
-    @Column
+    @Column(value = "product_name")
     private String productName;
-    @Column
+    @Column(value = "product_type")
     private String productType;
     @Column
-    private String status;
-    @Column
-    private UUID id;
+    private AdvertisementStatus status;
 
 
-    public long getPrice() {
+    public int getPrice() {
         return this.key.price;
     }
 
-    public void setPrice(long price) {
+    public void setPrice(int price) {
         this.key.price = price;
     }
 
 
-    public String getAdType() {
+    public AdvertisementType getAdType() {
         return adType;
     }
 
-    public void setAdType(String adType) {
+    public void setAdType(AdvertisementType adType) {
         this.adType = adType;
     }
 
@@ -127,20 +129,20 @@ public class ProductsByPrice {
     }
 
 
-    public String getStatus() {
+    public AdvertisementStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(AdvertisementStatus status) {
         this.status = status;
     }
 
 
-    public String getUserId() {
+    public UUID getUserId() {
         return this.key.userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(UUID userId) {
         this.key.userId = userId;
     }
 
