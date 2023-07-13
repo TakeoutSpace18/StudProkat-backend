@@ -5,6 +5,7 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.studprokat.backend.dto.ProductDto;
 import ru.studprokat.backend.dto.UserInputDto;
 import ru.studprokat.backend.dto.UserLoginDto;
 import ru.studprokat.backend.dto.UserOutputDto;
@@ -18,6 +19,7 @@ import ru.studprokat.backend.repository.cassandra.WalletRepository;
 import ru.studprokat.backend.repository.cassandra.entity.UsersByEmail;
 import ru.studprokat.backend.repository.cassandra.entity.UsersById;
 import ru.studprokat.backend.repository.cassandra.entity.Wallet;
+import ru.studprokat.backend.service.ProductService;
 import ru.studprokat.backend.service.UsersService;
 import ru.studprokat.backend.utils.PermissionLevel;
 
@@ -32,14 +34,17 @@ public class UsersServiceImpl implements UsersService {
     private final UsersByIdRepository usersByIdRepository;
     private final UsersByEmailRepository usersByEmailRepository;
     private final WalletRepository walletRepository;
+    private final ProductService productService;
     private final PasswordEncoder passwordEncoder;
     private final ObjectIdGenerators.UUIDGenerator uuidGenerator;
 
     @Autowired
-    public UsersServiceImpl(UsersByIdRepository usersByIdRepository, UsersByEmailRepository usersByEmailRepository, WalletRepository walletRepository, PasswordEncoder passwordEncoder) {
+    public UsersServiceImpl(UsersByIdRepository usersByIdRepository, UsersByEmailRepository usersByEmailRepository, WalletRepository walletRepository, ProductService productService, PasswordEncoder passwordEncoder) {
         this.usersByEmailRepository = usersByEmailRepository;
         this.walletRepository = walletRepository;
         this.usersByIdRepository = usersByIdRepository;
+
+        this.productService = productService;
 
         this.uuidGenerator = new ObjectIdGenerators.UUIDGenerator();
         this.passwordEncoder = passwordEncoder;
@@ -105,6 +110,12 @@ public class UsersServiceImpl implements UsersService {
         Optional<UsersById> usersById = this.usersByIdRepository.findById(id);
         if (usersById.isEmpty()) {
             throw new UserNotFoundException();
+        }
+
+        // delete all products owned by user
+        List<ProductDto> products = this.productService.findByUserId(id);
+        for (ProductDto productDto : products) {
+            this.productService.delete(productDto.getId());
         }
 
         this.usersByEmailRepository.deleteById(usersById.get().getEmail());
