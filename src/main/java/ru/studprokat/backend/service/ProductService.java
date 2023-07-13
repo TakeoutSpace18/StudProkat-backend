@@ -1,6 +1,7 @@
 package ru.studprokat.backend.service;
 
 import org.springframework.security.core.Authentication;
+import ru.studprokat.backend.dto.HistoryDto;
 import ru.studprokat.backend.dto.ProductDto;
 import ru.studprokat.backend.utils.AdvertisementType;
 
@@ -17,5 +18,5 @@ public interface ProductService {
     List<ProductDto> findByUserId(UUID userId);
     ProductDto findById(UUID id);
     Set<String> getProductTypes();
-    ProductDto changeStatus(UUID id);
+    void changeStatus(UUID productId, boolean status);
 }

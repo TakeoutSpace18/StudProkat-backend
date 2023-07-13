@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import ru.studprokat.backend.dto.HistoryDto;
 import ru.studprokat.backend.dto.ProductDto;
 import ru.studprokat.backend.dto.UserLoginDto;
 import ru.studprokat.backend.exception.ProductNotFoundException;
@@ -12,10 +13,7 @@ import ru.studprokat.backend.repository.cassandra.ProductsByAdTypeRepository;
 import ru.studprokat.backend.repository.cassandra.ProductsByIdRepository;
 import ru.studprokat.backend.repository.cassandra.ProductsByPriceRepository;
 import ru.studprokat.backend.repository.cassandra.ProductsByProductTypeRepository;
-import ru.studprokat.backend.repository.cassandra.entity.ProductsByAdType;
-import ru.studprokat.backend.repository.cassandra.entity.ProductsById;
-import ru.studprokat.backend.repository.cassandra.entity.ProductsByPrice;
-import ru.studprokat.backend.repository.cassandra.entity.ProductsByProductType;
+import ru.studprokat.backend.repository.cassandra.entity.*;
 import ru.studprokat.backend.service.ProductService;
 import ru.studprokat.backend.utils.AdvertisementStatus;
 import ru.studprokat.backend.utils.AdvertisementType;
@@ -180,7 +178,23 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto changeStatus(UUID id) {
-        return null;
+    public void changeStatus(UUID productId, boolean status) {
+        Optional<ProductsById> oldProductsById = productsByIdRepository.findById(productId);
+        if(oldProductsById.isEmpty()) throw new ProductNotFoundException();
+        ProductsByPrice oldProductsByPrice = productsByPriceRepository.findByKey_UserIdAndKey_PriceAndKey_Id(oldProductsById.get().getUserId(), oldProductsById.get().getPrice(),oldProductsById.get().getId());
+        if (oldProductsByPrice == null) throw new ProductNotFoundException();
+        ProductsByProductType oldProductsByProductType = productsByProductTypeRepository.findByKey_productTypeAndKey_Id(oldProductsById.get().getProductType(), oldProductsById.get().getId());
+        if(oldProductsByProductType == null) throw new ProductNotFoundException();
+        ProductsByAdType oldProductsByAdType = productsByAdTypeRepository.findByKey_adTypeAndKey_Id(oldProductsById.get().getAdType(), oldProductsById.get().getId());
+
+        oldProductsById.get().setStatus(AdvertisementStatus.BUSY);
+        oldProductsByAdType.setStatus(AdvertisementStatus.BUSY);
+        oldProductsByPrice.setStatus(AdvertisementStatus.BUSY);
+        oldProductsByProductType.setStatus(AdvertisementStatus.BUSY);
+
+        this.productsByIdRepository.save(oldProductsById.get());
+        this.productsByAdTypeRepository.save(oldProductsByAdType);
+        this.productsByProductTypeRepository.save(oldProductsByProductType);
+        this.productsByPriceRepository.save(oldProductsByPrice);
     }
 }

@@ -120,5 +120,6 @@ public class UserController {
     public ResponseEntity<UserOutputDto> getById(@PathVariable UUID userId) {
         return ResponseEntity.ok(this.usersService.findById(userId));
     }
+
 }
 

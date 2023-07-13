@@ -9,5 +9,6 @@ import java.util.UUID;
 
 public interface ProductsByAdTypeRepository extends CassandraRepository<ProductsByAdType, ProductsByAdType.Key> {
     List<ProductsByAdType> findByKey_adType(AdvertisementType key_adType);
+    ProductsByAdType findByKey_adTypeAndKey_Id(AdvertisementType key_adType, UUID key_id);
     void deleteByKey_AdTypeAndKey_Id(AdvertisementType key_adType, UUID key_id);
 }
