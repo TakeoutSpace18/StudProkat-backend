@@ -6,3 +6,19 @@ spring:
     contact-points: 127.0.0.1:9042
     username: cassandra
     password: cassandra
+springdoc:
+  use-management-port: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, openapi, swagger-ui
+  server:
+    port: 9090
+
+logging:
+  level:
+    ru:
+      studprokat:
+        backend: DEBUG
