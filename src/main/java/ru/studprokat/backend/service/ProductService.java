@@ -17,4 +17,5 @@ public interface ProductService {
     List<ProductDto> findByUserId(UUID userId);
     ProductDto findById(UUID id);
     Set<String> getProductTypes();
+    ProductDto changeStatus(UUID id);
 }

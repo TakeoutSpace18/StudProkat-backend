@@ -178,4 +178,9 @@ public class ProductServiceImpl implements ProductService {
         }
         return result.stream().map(Mappings::toProductType).collect(Collectors.toSet());
     }
+
+    @Override
+    public ProductDto changeStatus(UUID id) {
+        return null;
+    }
 }

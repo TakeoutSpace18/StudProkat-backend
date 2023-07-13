@@ -57,7 +57,7 @@ public class ProductController {
     public ResponseEntity<ProductDto> getById(@PathVariable UUID productId) {
         return ResponseEntity.ok(productService.findById(productId));
     }
-    @GetMapping(value = "{userId}/products")
+    @GetMapping(value = "{userId}/all")
     public ResponseEntity<List<ProductDto>> getByUserId(@PathVariable UUID userId){
         return ResponseEntity.ok(productService.findByUserId(userId));
     }
