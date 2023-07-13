@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.studprokat.backend.dto.ValidationExceptionDto;
 import ru.studprokat.backend.exception.*;
 
-import java.awt.print.PrinterException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +22,7 @@ public class ErrorControllerAdvice {
     public ResponseEntity<List<ValidationExceptionDto>> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
         log.error(exception.getMessage());
         List<FieldError> fieldErrors = exception.getFieldErrors();
-        List<ValidationExceptionDto> body = new ArrayList<ValidationExceptionDto>();
+        List<ValidationExceptionDto> body = new ArrayList<>();
         for (FieldError error : fieldErrors) {
             body.add(new ValidationExceptionDto(error.getField(), error.getDefaultMessage()));
         }
@@ -45,7 +43,7 @@ public class ErrorControllerAdvice {
     }
 
     @ExceptionHandler(EmailAlreadyRegisteredException.class)
-    public  ResponseEntity<ErrorMessage> handleForbiddenException(EmailAlreadyRegisteredException exception) {
+    public  ResponseEntity<ErrorMessage> handleEmailAlreadyRegisteredException(EmailAlreadyRegisteredException exception) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ErrorMessage(exception.getMessage()));
     }
     @ExceptionHandler(ProductNotFoundException.class)
