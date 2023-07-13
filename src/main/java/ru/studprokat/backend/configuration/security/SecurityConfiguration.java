@@ -18,7 +18,16 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests(requests -> requests
                 .requestMatchers(HttpMethod.PATCH, "/renting/users/{userId}").authenticated()
                 .requestMatchers(HttpMethod.DELETE, "/renting/users/{userId}").authenticated()
+
                 .requestMatchers(HttpMethod.POST, "/renting/coupons").authenticated()
+                .requestMatchers(HttpMethod.POST, "/renting/users/{userId}/wallet").authenticated()
+                .requestMatchers(HttpMethod.POST, "/renting/users/{userId}/transaction").authenticated()
+                .requestMatchers(HttpMethod.GET, "/renting/users/{userId}/wallet").authenticated()
+                .requestMatchers(HttpMethod.PATCH, "/renting/users/{userId}/wallet").authenticated()
+
+                .requestMatchers(HttpMethod.DELETE, "/renting/products/{userId}").authenticated()
+                .requestMatchers(HttpMethod.POST, "/renting/products").authenticated()
+
                 .requestMatchers(HttpMethod.GET, "/auth/success").authenticated()
                 .anyRequest().permitAll()
         );

@@ -2,7 +2,7 @@ CREATE KEYSPACE StudProKat WITH REPLICATION = {'class': 'SimpleStrategy', 'repli
 
 CREATE TABLE StudProKat.Coupons
 (
-    coupon TEXT,
+    coupon UUID,
     money  INT,
     used   BOOLEAN,
     PRIMARY KEY ( coupon )

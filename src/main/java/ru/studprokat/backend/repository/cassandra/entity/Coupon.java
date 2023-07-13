@@ -14,7 +14,7 @@ public class Coupon {
     @Column
     private int money;
     @Column
-    boolean used;
+    private boolean used;
 
     public UUID getId() {
         return id;

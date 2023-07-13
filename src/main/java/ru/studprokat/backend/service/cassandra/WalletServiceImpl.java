@@ -65,9 +65,9 @@ public class WalletServiceImpl implements WalletService {
             log.debug("Failed to set wallet balance for user {}: not found", userId);
             throw new UserNotFoundException();
         }
-        foundWallet.get().setMoney(moneyDto.getMoney());
+        foundWallet.get().setMoney(moneyDto.money());
         this.walletRepository.save(foundWallet.get());
-        log.debug("Set balance {} RUB to {} wallet", moneyDto.getMoney(), userId);
+        log.debug("Set balance {} RUB to {} wallet", moneyDto.money(), userId);
         return moneyDto;
     }
 
@@ -101,9 +101,9 @@ public class WalletServiceImpl implements WalletService {
     @Override
     public CreateCouponDto createCoupon(MoneyDto moneyDto) {
         UUID id = this.uuidGenerator.generateId(null);
-        Coupon coupon = new Coupon().setId(id).setUsed(false).setMoney(moneyDto.getMoney());
+        Coupon coupon = new Coupon().setId(id).setUsed(false).setMoney(moneyDto.money());
         this.couponRepository.save(coupon);
-        log.info("Created coupon {} of {} RUB", id, moneyDto.getMoney());
+        log.info("Created coupon {} of {} RUB", id, moneyDto.money());
         return new CreateCouponDto(id, coupon.getMoney());
     }
 
@@ -117,7 +117,7 @@ public class WalletServiceImpl implements WalletService {
 
         Optional<Wallet> foundClientWallet = this.walletRepository.findById(transactionDto.getClientId());
         if (foundClientWallet.isEmpty()) {
-            log.error("Transaction failed: client't {} wallet not found", userId);
+            log.error("Transaction failed: client's {} wallet not found", userId);
             throw new ClientNotFoundException();
         }
         foundUserWallet.get().subtractMoney(transactionDto.getMoney());
