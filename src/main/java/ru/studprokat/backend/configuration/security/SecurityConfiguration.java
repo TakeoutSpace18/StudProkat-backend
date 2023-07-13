@@ -18,6 +18,8 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests(requests -> requests
                 .requestMatchers(HttpMethod.PATCH, "/renting/users/{userId}").authenticated()
                 .requestMatchers(HttpMethod.DELETE, "/renting/users/{userId}").authenticated()
+                .requestMatchers(HttpMethod.POST, "/renting/coupons").authenticated()
+                .requestMatchers(HttpMethod.GET, "/auth/success").authenticated()
                 .anyRequest().permitAll()
         );
         http.cors(configurer -> configurer.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()));

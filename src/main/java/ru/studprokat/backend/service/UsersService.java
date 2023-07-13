@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface UsersService {
-    UserOutputDto create(UserInputDto userInputDto);
+    UserOutputDto createRegularUser(UserInputDto userInputDto);
     void delete(UUID id);
     UserOutputDto alter(UUID id, UserInputDto userInputDto);
     UserOutputDto findById(UUID id);

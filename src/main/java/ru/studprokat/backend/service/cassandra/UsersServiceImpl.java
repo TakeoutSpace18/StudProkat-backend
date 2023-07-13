@@ -1,6 +1,7 @@
 package ru.studprokat.backend.service.cassandra;
 
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import ru.studprokat.backend.service.UsersService;
 import ru.studprokat.backend.utils.PermissionLevel;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -43,10 +45,31 @@ public class UsersServiceImpl implements UsersService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @PostConstruct
+    private void createAdmin() {
+        String adminEmail = "admin@admin.com";
+        String adminPassword = "admin";
+
+        Optional<UsersByEmail> foundAdmin = this.usersByEmailRepository.findById(adminEmail);
+        if (foundAdmin.isEmpty()) {
+            UserInputDto adminDto = new UserInputDto("admin",
+                    "admin",
+                    "admin",
+                    adminEmail,
+                    new HashSet<>(),
+                    adminPassword);
+            createUser(adminDto, PermissionLevel.ADMIN);
+        }
+    }
+
     @Override
-    public UserOutputDto create(UserInputDto userInputDto) {
+    public UserOutputDto createRegularUser(UserInputDto userInputDto) {
         checkIfEmailAlreadyExistsInDatabase(userInputDto.getEmail());
 
+        return createUser(userInputDto, PermissionLevel.USER);
+    }
+
+    private UserOutputDto createUser(UserInputDto userInputDto, PermissionLevel permissionLevel) {
         UUID id = this.uuidGenerator.generateId(null);
         String encodedPassword = this.passwordEncoder.encode(userInputDto.getPassword());
         LocalDate registrationDate = LocalDate.now();
@@ -56,7 +79,7 @@ public class UsersServiceImpl implements UsersService {
                 .setEmail(userInputDto.getEmail())
                 .setPassword(encodedPassword)
                 .setRegistrationDate(registrationDate)
-                .setPermissionLevel(PermissionLevel.USER);
+                .setPermissionLevel(permissionLevel);
 
         UsersById usersById = Mappings.toUsersById(userInputDto)
                 .setId(id)

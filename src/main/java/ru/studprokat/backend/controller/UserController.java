@@ -28,7 +28,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserOutputDto> create(@RequestBody @Valid UserInputDto userInputDto) {
-        UserOutputDto userOutputDto = this.usersService.create(userInputDto);
+        UserOutputDto userOutputDto = this.usersService.createRegularUser(userInputDto);
         return ResponseEntity.ok(userOutputDto);
     }
 
