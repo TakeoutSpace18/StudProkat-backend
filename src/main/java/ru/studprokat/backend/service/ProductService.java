@@ -14,7 +14,7 @@ public interface ProductService {
     void delete (UUID id);
     List<ProductDto> findByAdType(AdvertisementType advertisementType);
     List<ProductDto> findByProductType(String productType);
+    List<ProductDto> findByUserId(UUID userId);
     ProductDto findById(UUID id);
-
     Set<String> getProductTypes();
 }
