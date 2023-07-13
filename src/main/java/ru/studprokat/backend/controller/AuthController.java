@@ -1,7 +1,7 @@
 package ru.studprokat.backend.controller;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -13,6 +13,7 @@ import ru.studprokat.backend.dto.AuthSuccessDto;
 import ru.studprokat.backend.dto.ErrorMessageDto;
 import ru.studprokat.backend.dto.UserLoginDto;
 
+@Hidden
 @RestController
 @RequestMapping("auth")
 public class AuthController {
@@ -25,7 +26,7 @@ public class AuthController {
     }
 
     @GetMapping("failure")
-    public ResponseEntity<ErrorMessageDto> failed(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<ErrorMessageDto> failed(HttpServletRequest request) {
         AuthenticationException exception = (AuthenticationException) request.getSession().getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
         ErrorMessageDto errorMessageDto = new ErrorMessageDto(exception.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMessageDto);

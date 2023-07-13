@@ -25,7 +25,7 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.GET, "/renting/users/{userId}/wallet").authenticated()
                 .requestMatchers(HttpMethod.PATCH, "/renting/users/{userId}/wallet").authenticated()
 
-                .requestMatchers(HttpMethod.DELETE, "/renting/products/{userId}").authenticated()
+                .requestMatchers(HttpMethod.DELETE, "/renting/products/{productId}").authenticated()
                 .requestMatchers(HttpMethod.POST, "/renting/products").authenticated()
 
                 .requestMatchers(HttpMethod.GET, "/auth/success").authenticated()
