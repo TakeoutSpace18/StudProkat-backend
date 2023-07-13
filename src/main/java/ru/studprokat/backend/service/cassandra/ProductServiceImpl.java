@@ -8,6 +8,7 @@ import ru.studprokat.backend.dto.HistoryDto;
 import ru.studprokat.backend.dto.ProductDto;
 import ru.studprokat.backend.dto.UserLoginDto;
 import ru.studprokat.backend.exception.ProductNotFoundException;
+import ru.studprokat.backend.exception.WrongAdTypeException;
 import ru.studprokat.backend.mappings.Mappings;
 import ru.studprokat.backend.repository.cassandra.ProductsByAdTypeRepository;
 import ru.studprokat.backend.repository.cassandra.ProductsByIdRepository;
@@ -178,7 +179,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void changeStatus(UUID productId, boolean status) {
+    public void changeStatus(UUID productId, AdvertisementStatus status) {
         Optional<ProductsById> oldProductsById = productsByIdRepository.findById(productId);
         if(oldProductsById.isEmpty()) throw new ProductNotFoundException();
         ProductsByPrice oldProductsByPrice = productsByPriceRepository.findByKey_UserIdAndKey_PriceAndKey_Id(oldProductsById.get().getUserId(), oldProductsById.get().getPrice(),oldProductsById.get().getId());
@@ -186,11 +187,11 @@ public class ProductServiceImpl implements ProductService {
         ProductsByProductType oldProductsByProductType = productsByProductTypeRepository.findByKey_productTypeAndKey_Id(oldProductsById.get().getProductType(), oldProductsById.get().getId());
         if(oldProductsByProductType == null) throw new ProductNotFoundException();
         ProductsByAdType oldProductsByAdType = productsByAdTypeRepository.findByKey_adTypeAndKey_Id(oldProductsById.get().getAdType(), oldProductsById.get().getId());
-
-        oldProductsById.get().setStatus(AdvertisementStatus.BUSY);
-        oldProductsByAdType.setStatus(AdvertisementStatus.BUSY);
-        oldProductsByPrice.setStatus(AdvertisementStatus.BUSY);
-        oldProductsByProductType.setStatus(AdvertisementStatus.BUSY);
+        if(oldProductsById.get().getAdType().equals(AdvertisementType.REQUEST)) throw new WrongAdTypeException();
+        oldProductsById.get().setStatus(status);
+        oldProductsByAdType.setStatus(status);
+        oldProductsByPrice.setStatus(status);
+        oldProductsByProductType.setStatus(status);
 
         this.productsByIdRepository.save(oldProductsById.get());
         this.productsByAdTypeRepository.save(oldProductsByAdType);
