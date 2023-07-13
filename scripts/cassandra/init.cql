@@ -13,7 +13,7 @@ CREATE TABLE StudProKat.history_by_user
     id                 UUID,
     user_id            UUID,
     client_id          UUID,
-    product_id         INT,
+    product_id         UUID,
     client_name        TEXT,
     client_surname     TEXT,
     client_middle_name TEXT,

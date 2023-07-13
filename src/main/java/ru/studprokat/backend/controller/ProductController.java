@@ -33,6 +33,7 @@ public class ProductController {
         return ResponseEntity.ok(productService.create(productDto, authentication));
     }
 
+
     @DeleteMapping(value = "{productId}")
     public ResponseEntity<Void> delete(@PathVariable UUID productId, Authentication auth) {
         ProductDto productDto = productService.findById(productId);
@@ -55,6 +56,10 @@ public class ProductController {
     @GetMapping(value = "{productId}")
     public ResponseEntity<ProductDto> getById(@PathVariable UUID productId) {
         return ResponseEntity.ok(productService.findById(productId));
+    }
+    @GetMapping(value = "{userId}/products")
+    public ResponseEntity<List<ProductDto>> getByUserId(@PathVariable UUID userId){
+        return ResponseEntity.ok(productService.findByUserId(userId));
     }
     @GetMapping(value = "product_types")
     public ResponseEntity<Set<String>> getProductTypes(){
