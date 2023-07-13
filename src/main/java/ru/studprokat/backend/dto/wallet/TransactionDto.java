@@ -2,14 +2,14 @@ package ru.studprokat.backend.dto.wallet;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Positive;
 
 import java.util.UUID;
 
 public class TransactionDto {
-    @NotEmpty
     @JsonProperty("client_id")
     private final UUID clientId;
-    @NotEmpty
+    @Positive
     @JsonProperty("money")
     private final Integer money;
 

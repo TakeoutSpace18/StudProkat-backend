@@ -54,7 +54,7 @@ public class ErrorControllerAdvice {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessage(exception.getMessage()));
     }
     @ExceptionHandler(CouponAlreadyUsedException.class)
-    public ResponseEntity<ErrorMessage> handleCouponAlreadyUsedException(ProductNotFoundException exception) {
+    public ResponseEntity<ErrorMessage> handleCouponAlreadyUsedException(CouponAlreadyUsedException exception) {
         log.error(exception.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ErrorMessage(exception.getMessage()));
     }

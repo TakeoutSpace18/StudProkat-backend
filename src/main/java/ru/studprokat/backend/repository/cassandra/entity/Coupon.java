@@ -1,7 +1,9 @@
 package ru.studprokat.backend.repository.cassandra.entity;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
 import org.springframework.data.cassandra.core.mapping.Column;
+import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
 import org.springframework.data.cassandra.core.mapping.Table;
 
@@ -9,7 +11,7 @@ import java.util.UUID;
 
 @Table("coupons")
 public class Coupon {
-    @PrimaryKeyColumn(value = "coupon", type = PrimaryKeyType.PARTITIONED)
+    @PrimaryKey(value = "coupon")
     private UUID id;
     @Column
     private int money;
