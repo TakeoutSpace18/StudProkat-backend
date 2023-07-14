@@ -1,5 +1,6 @@
 package ru.studprokat.backend.controller;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -73,6 +74,7 @@ public class ProductController {
         return ResponseEntity.ok().build();
     }
 
+    @Hidden
     @Operation(summary = "api.products.alter.operation.summary")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "api.products.alter.200.description"),
@@ -88,9 +90,9 @@ public class ProductController {
                     content = {@Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorMessageDto.class))})
     })
     @PatchMapping(value = "{productId}")
-    public ResponseEntity<ProductDto> alter(@RequestBody ProductDto userDto, @PathVariable String productId) {
+    public ResponseEntity<ProductDto> alter(@RequestBody ProductDto productDto, @PathVariable String productId) {
 
-        return ResponseEntity.ok(userDto);
+        return ResponseEntity.ok(productDto);
     }
 
     @Operation(summary = "api.products.list.operation.summary")

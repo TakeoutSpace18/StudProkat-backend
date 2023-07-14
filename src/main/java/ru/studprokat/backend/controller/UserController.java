@@ -1,5 +1,6 @@
 package ru.studprokat.backend.controller;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -86,6 +87,8 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "api.server.error.500.description",
                     content = {@Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorMessageDto.class))})
     })
+
+    @Hidden
     @PatchMapping(value = "{userId}")
     public ResponseEntity<UserOutputDto> alter(@RequestBody UserInputDto userInputDto, @PathVariable UUID userId, Authentication auth) {
         PermissionChecker.checkIdMatchingOrAdminPermission(userId, auth);
