@@ -29,6 +29,11 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.POST, "/renting/products").authenticated()
 
                 .requestMatchers(HttpMethod.GET, "/auth/success").authenticated()
+                .requestMatchers(HttpMethod.GET, "/auth/failure").anonymous()
+
+                .requestMatchers(HttpMethod.GET, "/renting/users/{userId}/active_rent").authenticated()
+                .requestMatchers(HttpMethod.GET, "/renting/users/{userId}/history").authenticated()
+                .requestMatchers(HttpMethod.GET, "/renting/history/{historyId}/close").authenticated()
                 .anyRequest().permitAll()
         );
         http.cors(configurer -> configurer.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()));

@@ -42,13 +42,17 @@ public class HistoryServiceImpl implements HistoryService {
     public HistoryDto create(HistoryInputDto historyInputDto,  Authentication authentication) {
         Optional<UsersById> client = usersByIdRepository.findById(historyInputDto.getClientId());
         if(client.isEmpty()) throw new ClientNotFoundException();
+
         UserLoginDto user = (UserLoginDto) authentication.getDetails();
         if(user==null) throw new UserNotFoundException();
+
         Optional<ProductsById> product = productsByIdRepository.findById(historyInputDto.getProductId());
         if(product.isEmpty()) throw new ProductNotFoundException();
+
         UUID id = this.uuidGenerator.generateId(null);
         if(!product.get().getUserId().equals(user.getId()))
             throw new ProductNotFoundException();
+
         HistoryByUser historyByUser = new HistoryByUser();
 
         historyByUser.setActive(true);

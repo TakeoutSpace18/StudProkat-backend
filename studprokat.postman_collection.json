@@ -27,11 +27,14 @@
 		{
 			"name": "Авторизация пользователя",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\t\"email\": \"Ian.Thiel10@yahoo.com\",\r\n\t\"password\": \"12345\"\r\n}",
+					"raw": "{\r\n\t\"email\": \"Daniella_OConner@gmail.com\",\r\n\t\"password\": \"12345\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -181,7 +184,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"ad_type\": \"RENT\", // or \"REQUEST\"\r\n    \"product_name\": \"{{$randomWord}}\",\r\n    \"product_type\": \"Cookware\",\r\n    \"description\": \"excellent thing\",\r\n    \"address\": \"{{$randomStreetAddress}}\",\r\n    \"photo\": \"https://cdn.poryadok.ru/upload/iblock/527/5277b9c81b42283c8c4c9bb34f8dd299.JPG\",\r\n    \"price\": {{$randomInt}}\r\n}",
+					"raw": "{\r\n    \"ad_type\": \"REQUEST\", // or \"RENT\"\r\n    \"product_name\": \"{{$randomWord}}\",\r\n    \"product_type\": \"Cookware\",\r\n    \"description\": \"excellent thing\",\r\n    \"address\": \"{{$randomStreetAddress}}\",\r\n    \"photo\": \"https://cdn.poryadok.ru/upload/iblock/527/5277b9c81b42283c8c4c9bb34f8dd299.JPG\",\r\n    \"price\": {{$randomInt}}\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -325,14 +328,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/renting/products/ca6d880c-8328-43c6-b446-27c6dfbc9520/all",
+					"raw": "{{baseUrl}}/renting/products/b9eeceef-2935-4413-8cbc-39904f4af3e1/all",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"renting",
 						"products",
-						"ca6d880c-8328-43c6-b446-27c6dfbc9520",
+						"b9eeceef-2935-4413-8cbc-39904f4af3e1",
 						"all"
 					]
 				}
@@ -346,7 +349,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\t\"coupon\": \"8c3a2afc-8ece-48a6-928a-198661d714b4\"\r\n}",
+					"raw": "{\r\n\t\"coupon\": \"b9dcac11-1581-4f46-98fc-114a7388142e\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -354,14 +357,14 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/renting/users/10a1b8d2-8cf8-4f56-b672-65ee12fd3fb6/wallet",
+					"raw": "{{baseUrl}}/renting/users/b9eeceef-2935-4413-8cbc-39904f4af3e1/wallet",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"renting",
 						"users",
-						"10a1b8d2-8cf8-4f56-b672-65ee12fd3fb6",
+						"b9eeceef-2935-4413-8cbc-39904f4af3e1",
 						"wallet"
 					]
 				}
@@ -374,14 +377,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/renting/users/f3b65c8f-1a4c-48b4-8658-2076723ea28c/wallet",
+					"raw": "{{baseUrl}}/renting/users/b9eeceef-2935-4413-8cbc-39904f4af3e1/wallet",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"renting",
 						"users",
-						"f3b65c8f-1a4c-48b4-8658-2076723ea28c",
+						"b9eeceef-2935-4413-8cbc-39904f4af3e1",
 						"wallet"
 					]
 				}
@@ -395,7 +398,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\t\"client_id\": \"f3b65c8f-1a4c-48b4-8658-2076723ea28c\",\r\n\t\"money\": 200\r\n}",
+					"raw": "{\r\n\t\"client_id\": \"ca6d880c-8328-43c6-b446-27c6dfbc9520\", // тот, кому отсылаем деньги\r\n\t\"money\": 200\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -403,14 +406,14 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/renting/users/10a1b8d2-8cf8-4f56-b672-65ee12fd3fb6/transaction",
+					"raw": "{{baseUrl}}/renting/users/b9eeceef-2935-4413-8cbc-39904f4af3e1/transaction",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"renting",
 						"users",
-						"10a1b8d2-8cf8-4f56-b672-65ee12fd3fb6",
+						"b9eeceef-2935-4413-8cbc-39904f4af3e1",
 						"transaction"
 					]
 				}
@@ -468,6 +471,75 @@
 						"users",
 						"10a1b8d2-8cf8-4f56-b672-65ee12fd3fb6",
 						"wallet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Открытие текущей аренды",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"product_id\": \"a03ab8e7-407d-4180-ba9c-640cad50c2ec\", // что сдается/принимается в аренду\r\n\t\"client_id\": \"74d725cd-70de-4569-a414-079ebfa40cd7\", // кому сдается/у кого берётся\r\n\t\"end_date\": \"2023-07-23\" // дата окончания\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/renting/users/27b9c7c7-a8b5-4f6c-8df7-7828ccec53df/active_rent",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"renting",
+						"users",
+						"27b9c7c7-a8b5-4f6c-8df7-7828ccec53df",
+						"active_rent"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Просмотр истории",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/renting/users/82683777-2c68-4075-9720-023db3fbbead/history",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"renting",
+						"users",
+						"82683777-2c68-4075-9720-023db3fbbead",
+						"history"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Закрытие текущей аренды",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/renting/history/8281587b-d4d8-4eae-9ff0-e238f1e221ef/close",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"renting",
+						"history",
+						"8281587b-d4d8-4eae-9ff0-e238f1e221ef",
+						"close"
 					]
 				}
 			},
