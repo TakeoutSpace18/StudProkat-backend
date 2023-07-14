@@ -1,0 +1,477 @@
+{
+	"info": {
+		"_postman_id": "fda67ad8-a264-46ea-80da-e4423dc045f6",
+		"name": "Final Postman Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28290911",
+		"_collection_link": "https://www.postman.com/lively-rocket-505246/workspace/studprokat-backend/collection/28290911-fda67ad8-a264-46ea-80da-e4423dc045f6?action=share&creator=28290911&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Actuator endpoints",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{actuatorUrl}}/actuator",
+					"host": [
+						"{{actuatorUrl}}"
+					],
+					"path": [
+						"actuator"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Авторизация пользователя",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"email\": \"Ian.Thiel10@yahoo.com\",\r\n\t\"password\": \"12345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/renting/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"renting",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Авторизоваться как админ",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "// ADMIN:\r\n{\r\n\t\"email\": \"admin@admin.com\",\r\n\t\"password\": \"admin\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/renting/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"renting",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Создать пользователя",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"12345\",\r\n    \"social_networks\": [\r\n        \"vk.com/{{$randomUserName}}\",\r\n        \"tg.me/{{$randomUserName}}\"\r\n    ],\r\n    \"name\": \"{{$randomFirstName}}\",\r\n    \"surname\": \"{{$randomLastName}}\",\r\n    \"middle_name\": \"Sergeevich\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/renting/users",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"renting",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Удалить пользователя",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/renting/users/b65e749b-b543-48a0-aea4-4af1876cb972",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"renting",
+						"users",
+						"b65e749b-b543-48a0-aea4-4af1876cb972"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Получить список пользователей",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{baseUrl}}/renting/users",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"renting",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Получить пользователя по id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/renting/users/ca6d880c-8328-43c6-b446-27c6dfbc9520",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"renting",
+						"users",
+						"ca6d880c-8328-43c6-b446-27c6dfbc9520"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Создать объявление",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ad_type\": \"RENT\", // or \"REQUEST\"\r\n    \"product_name\": \"{{$randomWord}}\",\r\n    \"product_type\": \"Cookware\",\r\n    \"description\": \"excellent thing\",\r\n    \"address\": \"{{$randomStreetAddress}}\",\r\n    \"photo\": \"https://cdn.poryadok.ru/upload/iblock/527/5277b9c81b42283c8c4c9bb34f8dd299.JPG\",\r\n    \"price\": {{$randomInt}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/renting/products",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"renting",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Удалить объявление по ID",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/renting/products/143b6655-d002-4cfa-afbb-4fd8a1faa5f4",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"renting",
+						"products",
+						"143b6655-d002-4cfa-afbb-4fd8a1faa5f4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Получить все объявления",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/renting/products",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"renting",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Получить объявлениt по ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/renting/products/test_prod",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"renting",
+						"products",
+						"test_prod"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Получить все категории товаров",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/renting/products/product_types",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"renting",
+						"products",
+						"product_types"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Получить объявления по категории товара",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/renting/products/product_types/Cookware",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"renting",
+						"products",
+						"product_types",
+						"Cookware"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Получить объявления по типу (сдать или взять в аренду)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/renting/products/ad_types/RENT",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"renting",
+						"products",
+						"ad_types",
+						"RENT"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Получить объявления по пользователю",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/renting/products/ca6d880c-8328-43c6-b446-27c6dfbc9520/all",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"renting",
+						"products",
+						"ca6d880c-8328-43c6-b446-27c6dfbc9520",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Пополнение кошелька по купону",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"coupon\": \"8c3a2afc-8ece-48a6-928a-198661d714b4\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/renting/users/10a1b8d2-8cf8-4f56-b672-65ee12fd3fb6/wallet",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"renting",
+						"users",
+						"10a1b8d2-8cf8-4f56-b672-65ee12fd3fb6",
+						"wallet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Получение баланса кошелька",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/renting/users/f3b65c8f-1a4c-48b4-8658-2076723ea28c/wallet",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"renting",
+						"users",
+						"f3b65c8f-1a4c-48b4-8658-2076723ea28c",
+						"wallet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Транзакция между двумя пользователями",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"client_id\": \"f3b65c8f-1a4c-48b4-8658-2076723ea28c\",\r\n\t\"money\": 200\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/renting/users/10a1b8d2-8cf8-4f56-b672-65ee12fd3fb6/transaction",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"renting",
+						"users",
+						"10a1b8d2-8cf8-4f56-b672-65ee12fd3fb6",
+						"transaction"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Выпустить купон (только для админов)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"money\": 500\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/renting/coupons",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"renting",
+						"coupons"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Обновление баланса кошелька (только для админов)",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"money\": 10000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/renting/users/10a1b8d2-8cf8-4f56-b672-65ee12fd3fb6/wallet",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"renting",
+						"users",
+						"10a1b8d2-8cf8-4f56-b672-65ee12fd3fb6",
+						"wallet"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
