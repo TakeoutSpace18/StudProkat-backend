@@ -22,8 +22,8 @@ Endpoint для авторизации: POST renting/login
 ```
 ## Запуск
 Всё стандартно, скрипт для БД - ```scripts/cassandra/init.cql``` \
-Так же приложение развернуто в Yandex Cloud по адресу: ```http://158.160.107.164:8080```\
-Доступна swagger документация: http://158.160.107.164:9090/actuator/swagger-ui/index.html 
+Так же приложение развернуто в Yandex Cloud по адресу: ```http://158.160.49.16:8080```\
+Доступна swagger документация: http://158.160.49.16:9090/actuator/swagger-ui/index.html 
 
 ```studprokat.postman_collection.json``` - коллекция с запросами в Postman \
 ```studprokat.postman_environment.json``` - окружение для теста на удалённом сервере
