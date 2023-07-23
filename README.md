@@ -26,4 +26,4 @@ Endpoint для авторизации: POST renting/login
 ## Документация
 Доступна swagger документация: http://localhost:9090/actuator/swagger-ui/index.html 
 
-```studprokat.postman_collection.json``` - коллекция с запросами в Postman \
+```studprokat.postman_collection.json``` - коллекция с запросами в Postman
