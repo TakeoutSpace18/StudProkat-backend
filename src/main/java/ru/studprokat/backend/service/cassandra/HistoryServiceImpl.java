@@ -1,15 +1,10 @@
 package ru.studprokat.backend.service.cassandra;
 
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import ru.studprokat.backend.dto.HistoryDto;
 import ru.studprokat.backend.dto.HistoryInputDto;
-import ru.studprokat.backend.dto.UserLoginDto;
-import ru.studprokat.backend.exception.ClientNotFoundException;
-import ru.studprokat.backend.exception.HistoryNotFoundException;
-import ru.studprokat.backend.exception.ProductNotFoundException;
-import ru.studprokat.backend.exception.UserNotFoundException;
+import ru.studprokat.backend.exception.*;
 import ru.studprokat.backend.mappings.Mappings;
 import ru.studprokat.backend.repository.cassandra.HistoryByUserRepository;
 import ru.studprokat.backend.repository.cassandra.ProductsByIdRepository;
@@ -39,20 +34,22 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
-    public HistoryDto create(HistoryInputDto historyInputDto,  Authentication authentication) {
+    public HistoryDto create(UUID userId, HistoryInputDto historyInputDto) {
         Optional<UsersById> client = usersByIdRepository.findById(historyInputDto.getClientId());
-        if(client.isEmpty()) throw new ClientNotFoundException();
-
-        UserLoginDto user = (UserLoginDto) authentication.getDetails();
-        if(user==null) throw new UserNotFoundException();
+        if(client.isEmpty()) {
+            throw new ClientNotFoundException();
+        }
 
         Optional<ProductsById> product = productsByIdRepository.findById(historyInputDto.getProductId());
-        if(product.isEmpty()) throw new ProductNotFoundException();
+        if(product.isEmpty()) {
+            throw new ProductNotFoundException();
+        }
+
+        if(!product.get().getUserId().equals(userId)) {
+            throw new ForbiddenException();
+        }
 
         UUID id = this.uuidGenerator.generateId(null);
-        if(!product.get().getUserId().equals(user.getId()))
-            throw new ProductNotFoundException();
-
         HistoryByUser historyByUser = new HistoryByUser();
 
         historyByUser.setActive(true);
@@ -65,7 +62,7 @@ public class HistoryServiceImpl implements HistoryService {
         historyByUser.setEndDate(historyInputDto.getEndDate());
         historyByUser.setProductId(product.get().getId());
         historyByUser.setProductName(product.get().getProductName());
-        historyByUser.setUserId(user.getId());
+        historyByUser.setUserId(userId);
 
         this.historyByUserRepository.save(historyByUser);
         return Mappings.toHistoryDto(historyByUser);
@@ -78,10 +75,10 @@ public class HistoryServiceImpl implements HistoryService {
 
 
     @Override
-    public List<HistoryDto> list() {
-        List<HistoryByUser> result = this.historyByUserRepository.findAll();
+    public List<HistoryDto> findByUserId(UUID userId) {
+        List<HistoryByUser> result = this.historyByUserRepository.findAllByKey_UserId(userId);
         if (result.isEmpty()){
-            throw new ProductNotFoundException();
+            throw new HistoryNotFoundException();
         }
         return result.stream().map(Mappings::toHistoryDto).toList();
     }

@@ -1,8 +1,8 @@
 package ru.studprokat.backend.service;
 
-import ru.studprokat.backend.dto.UserInputDto;
-import ru.studprokat.backend.dto.UserLoginDto;
-import ru.studprokat.backend.dto.UserOutputDto;
+import ru.studprokat.backend.dto.user.UserInputDto;
+import ru.studprokat.backend.dto.user.UserLoginDto;
+import ru.studprokat.backend.dto.user.UserOutputDto;
 
 import java.util.List;
 import java.util.UUID;

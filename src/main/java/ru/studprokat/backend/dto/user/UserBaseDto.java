@@ -1,4 +1,4 @@
-package ru.studprokat.backend.dto;
+package ru.studprokat.backend.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;

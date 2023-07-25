@@ -1,17 +1,13 @@
 package ru.studprokat.backend.repository.cassandra.entity;
 
-import jnr.constants.platform.Local;
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
 import org.springframework.data.cassandra.core.mapping.*;
-import ru.studprokat.backend.utils.AdvertisementStatus;
-import ru.studprokat.backend.utils.AdvertisementType;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Table(value = "history_by_user")
 public class HistoryByUser {
-
 
     @PrimaryKey
     public HistoryByUser.Key key = new HistoryByUser.Key();
@@ -22,6 +18,8 @@ public class HistoryByUser {
         private boolean active;
         @PrimaryKeyColumn(name = "id", type = PrimaryKeyType.CLUSTERED, ordinal = 1)
         private UUID id;
+        @PrimaryKeyColumn(name = "user_id", type = PrimaryKeyType.CLUSTERED, ordinal = 2)
+        private UUID userId;
 
         public Key() {
         }
@@ -30,9 +28,10 @@ public class HistoryByUser {
             this.id = id;
         }
 
-        public Key(boolean active, UUID id) {
+        public Key(boolean active, UUID id, UUID userId) {
             this.id = id;
             this.active = active;
+            this.userId = userId;
         }
     }
 
@@ -52,8 +51,6 @@ public class HistoryByUser {
     private String productName;
     @Column(value = "start_date")
     private LocalDate startDate;
-    @Column(value = "user_id")
-    private UUID userId;
 
 
     public boolean getActive() {
@@ -63,7 +60,6 @@ public class HistoryByUser {
     public void setActive(boolean active) {
         this.key.active = active;
     }
-
 
     public UUID getId() {
         return this.key.id;
@@ -147,11 +143,11 @@ public class HistoryByUser {
 
 
     public UUID getUserId() {
-        return userId;
+        return this.key.userId;
     }
 
     public void setUserId(UUID userId) {
-        this.userId = userId;
+        this.key.userId = userId;
     }
 
 }

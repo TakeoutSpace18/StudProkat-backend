@@ -3,6 +3,7 @@ package ru.studprokat.backend.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import ru.studprokat.backend.utils.AdvertisementStatus;
 import ru.studprokat.backend.utils.AdvertisementType;
+import ru.studprokat.backend.utils.RentTimeframe;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -28,6 +29,8 @@ public class ProductDto {
         private final String photo;
         @JsonProperty("price")
         private final int price;
+//        @JsonProperty("rent_timeframe")
+//        private final RentTimeframe timeframe;
         @JsonProperty("status")
         private final AdvertisementStatus status;
 

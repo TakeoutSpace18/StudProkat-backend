@@ -1,7 +1,7 @@
 package ru.studprokat.backend.controller;
 
 import org.springframework.security.core.Authentication;
-import ru.studprokat.backend.dto.UserLoginDto;
+import ru.studprokat.backend.dto.user.UserLoginDto;
 import ru.studprokat.backend.exception.ForbiddenException;
 import ru.studprokat.backend.utils.PermissionLevel;
 

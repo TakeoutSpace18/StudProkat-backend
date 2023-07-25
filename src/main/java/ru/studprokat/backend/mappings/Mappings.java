@@ -2,8 +2,8 @@ package ru.studprokat.backend.mappings;
 
 import ru.studprokat.backend.dto.HistoryDto;
 import ru.studprokat.backend.dto.ProductDto;
-import ru.studprokat.backend.dto.UserInputDto;
-import ru.studprokat.backend.dto.UserOutputDto;
+import ru.studprokat.backend.dto.user.UserInputDto;
+import ru.studprokat.backend.dto.user.UserOutputDto;
 import ru.studprokat.backend.repository.cassandra.entity.*;
 
 

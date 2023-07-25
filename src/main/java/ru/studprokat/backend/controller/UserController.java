@@ -15,8 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ru.studprokat.backend.dto.ErrorMessageDto;
-import ru.studprokat.backend.dto.UserInputDto;
-import ru.studprokat.backend.dto.UserOutputDto;
+import ru.studprokat.backend.dto.user.UserInputDto;
+import ru.studprokat.backend.dto.user.UserOutputDto;
 import ru.studprokat.backend.dto.ValidationExceptionDto;
 import ru.studprokat.backend.service.UsersService;
 

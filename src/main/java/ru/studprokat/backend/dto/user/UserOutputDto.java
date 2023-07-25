@@ -1,7 +1,6 @@
-package ru.studprokat.backend.dto;
+package ru.studprokat.backend.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import ru.studprokat.backend.utils.PermissionLevel;
 
 import java.time.LocalDate;
 import java.util.Set;

@@ -1,8 +1,7 @@
 package ru.studprokat.backend.utils;
 
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import ru.studprokat.backend.dto.ProductDto;
-import ru.studprokat.backend.dto.UserOutputDto;
+import ru.studprokat.backend.dto.user.UserOutputDto;
 
 import java.time.LocalDate;
 import java.util.List;

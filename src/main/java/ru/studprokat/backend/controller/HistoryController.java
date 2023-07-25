@@ -12,10 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import ru.studprokat.backend.dto.ErrorMessageDto;
-import ru.studprokat.backend.dto.HistoryDto;
-import ru.studprokat.backend.dto.HistoryInputDto;
-import ru.studprokat.backend.dto.ValidationExceptionDto;
+import ru.studprokat.backend.dto.*;
+import ru.studprokat.backend.dto.user.UserLoginDto;
 import ru.studprokat.backend.repository.cassandra.entity.HistoryByUser;
 import ru.studprokat.backend.service.HistoryService;
 import ru.studprokat.backend.service.ProductService;
@@ -57,9 +55,10 @@ public class HistoryController {
                     content = {@Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorMessageDto.class))})
     })
     @PostMapping(value = "users/{userId}/active_rent", consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<HistoryDto> create(@RequestBody @Valid HistoryInputDto historyInputDto,Authentication authentication) {
+    public ResponseEntity<HistoryDto> create(@RequestBody @Valid HistoryInputDto historyInputDto, Authentication authentication) {
+        UserLoginDto user = (UserLoginDto) authentication.getDetails();
         productService.changeStatus(historyInputDto.getProductId(), AdvertisementStatus.BUSY);
-        return ResponseEntity.ok(historyService.create(historyInputDto,authentication));
+        return ResponseEntity.ok(historyService.create(user.getId(), historyInputDto));
     }
 
     @Operation(summary = "api.history.list.operation.summary")
@@ -74,9 +73,9 @@ public class HistoryController {
             @ApiResponse(responseCode = "500", description = "api.server.error.500.description",
                     content = {@Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorMessageDto.class))})
     })
-    @GetMapping(value = "users/{user_id}/history")
-    public ResponseEntity<List<HistoryDto>> list(){
-        return ResponseEntity.ok(historyService.list());
+    @GetMapping(value = "users/{userId}/history")
+    public ResponseEntity<List<HistoryDto>> listByUser(@PathVariable UUID userId){
+        return ResponseEntity.ok(historyService.findByUserId(userId));
     }
 
     @Operation(summary = "api.history.close.operation.summary")
