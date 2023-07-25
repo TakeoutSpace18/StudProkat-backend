@@ -9,9 +9,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.studprokat.backend.dto.AuthSuccessDto;
+import ru.studprokat.backend.dto.user.AuthSuccessDto;
 import ru.studprokat.backend.dto.ErrorMessageDto;
-import ru.studprokat.backend.dto.UserLoginDto;
+import ru.studprokat.backend.dto.user.UserLoginDto;
 
 @Hidden
 @RestController

@@ -8,7 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import ru.studprokat.backend.dto.UserLoginDto;
+import ru.studprokat.backend.dto.user.UserLoginDto;
 import ru.studprokat.backend.exception.UserNotFoundException;
 import ru.studprokat.backend.service.UsersService;
 

@@ -22,6 +22,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 import ru.studprokat.backend.controller.ErrorControllerAdvice;
 
@@ -57,7 +58,7 @@ public class CustomSecurityFilter extends OncePerRequestFilter {
         context.setAuthentication(authentication);
         this.securityContextHolderStrategy.setContext(context);
         this.securityContextRepository.saveContext(context, request, response);
-
+        log.debug(RequestContextHolder.getRequestAttributes().getSessionId());
         this.authenticationSuccessHandler.onAuthenticationSuccess(request, response, authentication);
     }
 
