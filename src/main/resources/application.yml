@@ -3,9 +3,10 @@ spring:
     keyspace-name: studprokat
     schema-action: create_if_not_exists
     local-datacenter: dc1
-    contact-points: 127.0.0.1:9042
+    contact-points: cassandra:9042
     username: cassandra
     password: cassandra
+
 springdoc:
   use-management-port: true
 
@@ -22,3 +23,7 @@ logging:
     ru:
       studprokat:
         backend: DEBUG
+
+    org:
+      springframework:
+        security: INFO
