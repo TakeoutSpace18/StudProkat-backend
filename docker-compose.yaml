@@ -11,3 +11,19 @@ services:
       - '9042:9042'
     volumes:
       - '~/data/cassandra:/var/lib/cassandra'
+    healthcheck:
+      test: [ "CMD-SHELL", "[ $$(nodetool statusgossip) = running ]" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  studprokat-backend:
+    image: studprokat-backend:latest
+    container_name: studprokat_backend
+    depends_on:
+      cassandra:
+        condition: service_healthy
+
+    ports:
+      - '8080:8080'
+      - '9090:9090'
