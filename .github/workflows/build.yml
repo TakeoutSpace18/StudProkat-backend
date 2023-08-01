@@ -9,9 +9,6 @@ name: Build
 
 on: [push]
 
-env:
-  IMAGE_NAME: studprokat-backend:latest
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -34,14 +31,14 @@ jobs:
       uses: burrunan/gradle-cache-action@v1
       with:
         job-id: jdk17
-        arguments: bootBuildImage --imageName=$IMAGE_NAME
+        arguments: bootBuildImage --imageName=${{ vars.APPLICATION_IMAGE_NAME }}
         gradle-version: wrapper
 
     - name: Tag & publish to GitHub Container Registry
       run: |
-        IMAGE_ID=ghcr.io/takeoutspace18/$IMAGE_NAME
+        IMAGE_ID=ghcr.io/takeoutspace18/${{ vars.APPLICATION_IMAGE_NAME }}
         VERSION=latest
-        docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+        docker tag ${{ vars.APPLICATION_IMAGE_NAME }} $IMAGE_ID:$VERSION
         docker push $IMAGE_ID:$VERSION
 
   update-yc:
