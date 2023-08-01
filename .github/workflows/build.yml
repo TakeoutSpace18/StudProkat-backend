@@ -54,11 +54,11 @@ jobs:
         uses: yc-actions/yc-coi-deploy@v2
         env:
           YC_VM_SSH_PUBLIC_KEY: ${{ secrets.YC_VM_SSH_PUBLIC_KEY }}
-          YC_VM_USERNAME: ${{ env.YC_VM_USERNAME }}
+          YC_VM_USERNAME: ${{ vars.YC_VM_USERNAME }}
         with:
           yc-sa-json-credentials: ${{ secrets.YC_SA_JSON_CREDENTIALS }}
           folder-id: ${{ secrets.YC_FOLDER_ID }}
-          vm-name: ${{ env.YC_VM_NAME }}
+          vm-name: ${{ vars.YC_VM_NAME }}
           vm-service-account-id: ${{ secrets.YC_SERVICE_ACCOUNT_ID }}
           vm-cores: 2
           vm-platform-id: 'standard-v2'
