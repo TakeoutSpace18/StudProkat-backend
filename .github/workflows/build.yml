@@ -10,7 +10,7 @@ name: Build
 on: [push]
 
 env:
-  IMAGE_NAME: studprokat-backend
+  IMAGE_NAME: studprokat-backend:latest
 
 jobs:
   build:
