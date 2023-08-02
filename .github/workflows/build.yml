@@ -50,7 +50,7 @@ jobs:
 
       - name: Deploy COI VM
         id: deploy-coi
-        uses: yc-actions/yc-coi-deploy@v2
+        uses: yc-actions/yc-coi-deploy@v1.0.1
         env:
           YC_VM_SSH_PUBLIC_KEY: ${{ secrets.YC_VM_SSH_PUBLIC_KEY }}
           YC_VM_USERNAME: ${{ vars.YC_VM_USERNAME }}
