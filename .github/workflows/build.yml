@@ -41,7 +41,7 @@ jobs:
         docker tag ${{ vars.APPLICATION_IMAGE_NAME }} $IMAGE_ID:$VERSION
         docker push $IMAGE_ID:$VERSION
 
-  update-yc:
+  update-yandex-cloud:
     runs-on: ubuntu-latest
     needs: [ build ]
     steps:
