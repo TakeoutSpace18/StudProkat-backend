@@ -9,6 +9,10 @@ name: Build and Deploy
 
 on: [push]
 
+env:
+  IMAGE_ID: ghcr.io/takeoutspace18/${{ vars.APPLICATION_IMAGE_NAME }}
+  VERSION: latest
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -36,8 +40,6 @@ jobs:
 
     - name: Tag & publish to GitHub Container Registry
       run: |
-        IMAGE_ID=ghcr.io/takeoutspace18/${{ vars.APPLICATION_IMAGE_NAME }}
-        VERSION=latest
         docker tag ${{ vars.APPLICATION_IMAGE_NAME }} $IMAGE_ID:$VERSION
         docker push $IMAGE_ID:$VERSION
 
