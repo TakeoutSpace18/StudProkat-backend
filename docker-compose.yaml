@@ -26,10 +26,3 @@ services:
     ports:
       - '8080:8080'
       - '9090:9090'
-
-  # automatically pull updated container from ghcr
-  watchtower:
-    image: containrrr/watchtower
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    command: studprokat_backend
