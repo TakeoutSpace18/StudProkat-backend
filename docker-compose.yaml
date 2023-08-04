@@ -18,7 +18,7 @@ services:
       retries: 5
 
   studprokat-backend:
-    image: {{ env.IMAGE_ID }}
+    image: {{ env.IMAGE_ID }}:{{ env.VERSION }}
     container_name: studprokat_backend
     depends_on:
       cassandra:
