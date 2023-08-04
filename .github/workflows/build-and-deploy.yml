@@ -11,7 +11,7 @@ on: [push]
 
 env:
   IMAGE_ID: ghcr.io/takeoutspace18/${{ vars.APPLICATION_IMAGE_NAME }}
-  VERSION: latest
+  VERSION: ${{ github.sha }}
 
 jobs:
   build:
