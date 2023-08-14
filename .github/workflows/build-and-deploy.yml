@@ -7,7 +7,10 @@
 
 name: Build and Deploy
 
-on: [push]
+on:
+  push:
+    branches:
+      - 'master'
 
 env:
   IMAGE_ID: ghcr.io/takeoutspace18/${{ vars.APPLICATION_IMAGE_NAME }}
@@ -62,5 +65,5 @@ jobs:
           vm-name: ${{ vars.YC_VM_NAME }}
           vm-service-account-id: ${{ secrets.YC_SERVICE_ACCOUNT_ID }}
           vm-subnet-id: ${{ secrets.YC_SUBNET_ID }}
-          docker-compose-path: './docker-compose.yaml'
-          user-data-path: './yandex-cloud/user-data.yaml'
+          docker-compose-path: './deployment/docker-compose-cloud.yaml'
+          user-data-path: './deployment/user-data.yaml'
