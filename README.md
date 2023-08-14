@@ -1,6 +1,7 @@
 # Backend сервиса по аренде вещей среди студентов "StudProkat"
 Реализован в рамках летнего ШИФТ Интенсива 2023, с последующими доработками.
 
+[![Build and Deploy](https://github.com/TakeoutSpace18/StudProkat-backend/actions/workflows/build-and-deploy.yml/badge.svg)](https://github.com/TakeoutSpace18/StudProkat-backend/actions/workflows/build-and-deploy.yml)
 ## Функционал
 - регистрация, авторизация пользователей и личный счёт с пополнением по купонам.
 - создание и поиск по категориям объявлений на аренду
